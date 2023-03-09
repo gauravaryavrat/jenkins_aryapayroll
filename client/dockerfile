@@ -1,11 +1,11 @@
 ### STAGE 1: build ###
 FROM node:16.13.2-alpine AS build
 WORKDIR /usr/src/client
-COPY client/package.json ./
+COPY package.json ./
 #RUN npm install -g npm@9.6.0
 #RUN npm install -g yarn
 RUN yarn install
-COPY ./client .
+COPY . .
 RUN yarn build-staging
 
 ### STAGE 2: Run ###
