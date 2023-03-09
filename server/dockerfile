@@ -1,14 +1,14 @@
 ####### STAGE 1 #########
 FROM node:10.24.1-alpine as node_modules
 WORKDIR /usr/src/server
-COPY package.json ./
+COPY ./server/package.json ./
 RUN npm config set legacy-peer-deps true
 RUN npm  install
 #COPY . .
 
 ####### STAGE 2 #########
 FROM node:16.13.2-alpine as server
-COPY . .
+COPY ./server .
 COPY --from=node_modules /usr/src/server .
 RUN npm install firebase-admin
 
