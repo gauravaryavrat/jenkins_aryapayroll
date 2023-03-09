@@ -1,0 +1,72 @@
+<div class="card card-user">
+    <div class="card-header">
+        <h2 class="card-title">Update Job-Profile</h2>
+    </div>
+
+    <div class="card-body">
+        <div class="col-sm-offset-2">
+            <p class="alert alert-danger" *ngIf="errorMsg">
+                <strong>{{errMsg}}</strong>
+            </p>
+        </div>
+
+        <div class="col-sm-offset-2">
+            <p class="alert alert-success" *ngIf="successMessage">
+                <strong>{{successMsg}}</strong>
+            </p>
+        </div>
+
+        <form class="form-horizontal" role="form" [formGroup]="updateJobProfileForm"
+            (ngSubmit)="updateJobProfileFormData()" novalidate>
+            <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Profile Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                    <input class="form-control" type="text" id="inputName" placeholder="Enter Name"
+                        formControlName="positionName">
+                        <div *ngFor="let validation of validationMessage.positionName">
+                        <div style="color: red;margin-left: 14px;"
+                            *ngIf="updateJobProfileForm.get('positionName').hasError(validation.type) && (updateJobProfileForm.get('positionName').dirty || updateJobProfileForm.get('positionName').touched)"
+                            style="color: red;margin-left: 14px;">
+                            {{validation.message}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Pay Basis:&nbsp;<span style="color: darkred">*</span></b></label>
+                <select class="dropdown dropdown-toggle form-control" Name="Pay Basis" formControlName="payBasis">
+                    <option class="dropdown-item" disabled>Choose Pay Basis</option>
+                    <option class="dropdown-item" value="Monthly Salary">Monthly Salary</option>
+                    <option class="dropdown-item" value="Daily Wages">Daily Wages</option>
+                </select>
+                <div *ngFor="let validation of validationMessage.payBasis">
+                        <div style="color: red;margin-left: 14px;"
+                            *ngIf="updateJobProfileForm.get('payBasis').hasError(validation.type) && (updateJobProfileForm.get('payBasis').dirty || updateJobProfileForm.get('payBasis').touched)"
+                            style="color: red;margin-left: 14px;">
+                            {{validation.message}}
+                        </div>
+                    </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Status:</b></label>
+                <select class="dropdown dropdown-toggle form-control" Name="Status of Profile"
+                    formControlName="isActive">
+                    <option class="dropdown-item" value=true>Active</option>
+                    <option class="dropdown-item" value=false>In-Active</option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button [disabled]="updateJobProfileForm.invalid || permissionInfo.search('Edit JobProfile') === -1"
+                     type="submit" class="btn btn-success">Update</button>
+                    <button type="button" class="btn btn-danger" routerLink="../../job-profile-list">Cancel</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

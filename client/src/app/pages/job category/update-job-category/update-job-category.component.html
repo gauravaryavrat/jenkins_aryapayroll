@@ -1,0 +1,47 @@
+<div class="card card-user">
+   <div class="card-header">
+      <h2 class="card-title text-center">Update Job Category</h2>
+      <!-- <button type="button" class="btn btn-primary btn-circle" routerLink="../../list-job-category"  style="float: right;" ><i class="fa  fa-arrow-right"></i></button> -->
+   </div>
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{errMsg}}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{successMsg}}</strong>
+         </p>
+      </div>
+      <form class="form-horizontal" role="form" [formGroup]="jobForm" (ngSubmit)="updateJobForm()" novalidate>
+            <div class="form-group">
+               <label class="col-sm-6 control-label"><b>Category Name:&nbsp;<span style="color: darkred">*</span></b></label>
+               <div class="col-sm-offset-2">
+                  <input class="form-control" type="text" id="CategoryName" placeholder="Enter Category Name"
+                     formControlName="categoryName" required>
+                  <div *ngFor="let validation of validationMessage.categoryName">
+                     <div style="color: red;margin-left: 14px;"
+                        *ngIf="jobForm.get('categoryName').hasError(validation.type) && (jobForm.get('categoryName').dirty || jobForm.get('categoryName').touched)"
+                        >
+                        {{validation.message}}
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-sm-offset-2">
+                  <label><b>Is Active: </b></label><input type="checkbox" formControlName="isActive">
+               </div>
+            </div>
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success" [disabled]="jobForm.invalid || permissionInfo.search('Edit JobCategory') === -1">Update</button>
+                  <button type="submit" class="btn btn-danger" routerLink="../../list-job-category" >Cancel</button>
+
+
+               </div>
+            </div>
+         </form>
+   </div>
+</div>

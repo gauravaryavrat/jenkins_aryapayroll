@@ -1,0 +1,207 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="timer">
+</ngx-spinner>
+<notifier-container></notifier-container>
+<div class="card card-user">
+    <div class="card-header" (keyup.enter)="filterFunctionality()">
+        <h2 class="card-title text-center">Payroll Details</h2>
+    </div>
+
+    <div class="card-body">
+        <div class="form-row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label "><b>Select Employee:</b></label>
+                    <select class="dropdown dropdown-toggle form-control" id="salaryEmployee" (change)="employeeFilter()">
+                        <option class="dropdown-item" value="" disabled selected>--Select Employee--</option>
+                        <option class="dropdown-item" *ngFor="let employee of companyEmployeelist"
+                            value="{{employee._id}}">{{employee.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label "><b>Enter Year:</b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" id="payrollYear" (keyup)="yearValidation()" placeholder="Enter Year">
+                    </div>
+                    <div>
+                        <p style="color:red;">{{earnedLeaveYearMsg}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label "><b>Enter Month:</b></label>
+                    <div class="col-sm-offset-2">
+                        <select class="dropdown dropdown-toggle form-control" id="salarySlipMonth">
+                            <option [disabled]="!currentMonthValue['01']" class="dropdown-item" id="01" value="01">Jan
+                            </option>
+                            <option [disabled]="!currentMonthValue['02']" class="dropdown-item" id="02" value="02">Feb
+                            </option>
+                            <option [disabled]="!currentMonthValue['03']" class="dropdown-item" id="03" value="03">Mar
+                            </option>
+                            <option [disabled]="!currentMonthValue['04']" class="dropdown-item" id="04" value="04">Apr
+                            </option>
+                            <option [disabled]="!currentMonthValue['05']" class="dropdown-item" id="05" value="05">May
+                            </option>
+                            <option [disabled]="!currentMonthValue['06']" class="dropdown-item" id="06" value="06">Jun
+                            </option>
+                            <option [disabled]="!currentMonthValue['07']" class="dropdown-item" id="07" value="07">Jul
+                            </option>
+                            <option [disabled]="!currentMonthValue['08']" class="dropdown-item" id="08" value="08">Aug
+                            </option>
+                            <option [disabled]="!currentMonthValue['09']" class="dropdown-item" id="09" value="09">Sep
+                            </option>
+                            <option [disabled]="!currentMonthValue['10']" class="dropdown-item" id="10" value="10">Oct
+                            </option>
+                            <option [disabled]="!currentMonthValue['11']" class="dropdown-item" id="11" value="11">Nov
+                            </option>
+                            <option [disabled]="!currentMonthValue['12']" class="dropdown-item" id="12" value="12">Dec
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label "><b>Salary Slip</b></label>
+                    <div class="col-sm-offset-2">
+                        <select class="dropdown dropdown-toggle form-control" id="salarySlipType" [disabled]='filterOnEmployee'>
+                            <option class="dropdown-item" value="former">Formerly Generated</option>
+                            <option class="dropdown-item" value="later">Generate Later</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label "><b>Pay Mode:</b></label>
+                    <div class="col-sm-offset-2">
+                        <select class="dropdown dropdown-toggle form-control" id="salaryModeType" [disabled]='filterOnEmployee'>
+                                <option class="dropdown-item" value="" disabled selected>--Select Payment Mode--</option>
+                                <option class="dropdown-item" *ngFor="let modeType of paymentModeType" value="{{modeType.value}}">
+                                    {{modeType.name}}</option>
+                            </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group right-buttongroup">
+                    <button class="btn btn-primary btn-margin" [disabled]="earnedLeaveYearMsg" (click)="filterFunctionality()"><i class="fa fa-filter"></i>&nbsp; Filter</button>
+                    <button class="btn btn-danger btn-margin" (click)="resetFunctionality()"><i class="fa fa-trash"></i>&nbsp;  Reset</button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- <button style="float: right;" class="btn btn-primary btn-round" [disabled]="earnedLeaveYearMsg || bankStatementFlag" (click)="bankStatement()"><i class="fas fa-download"></i>&nbsp;{{statementName}}</button> -->
+        <button style="float: right;" class="btn btn-success btn-round" [disabled]="earnedLeaveYearMsg || dataSalary.length ===0" (click)="allDownload()"><i class="fas fa-download"></i>&nbsp; Download All</button>
+        <table class="table" style="text-align: center;">
+            <thead class=" text-primary">
+                <tr>
+                    <th>Generate Payroll
+                        <div *ngIf="dataSalary.length > 0 && currentSalarySlipFilterStatus === 'later'">
+                            <input type="checkbox" [checked]="selectAllCheckBox" (change)="headerCheckBox()" /> Select All
+                        </div>
+                    </th>
+                    <th>Name</th>
+                    <!-- <th>Designation</th> -->
+                    <th>Gross Salary</th>
+                    <th>Salary Deduction</th>
+                    <th>Net Salary</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody *ngFor="let list of dataSalary">
+                <tr>
+                    <td *ngIf="!list.isGenerated"><input type="checkbox" [checked]="showCheckbox[list._id]" (change)=listCheckBoxes(list._id) /></td>
+                    <td *ngIf="list.isGenerated"><i class="fa fa-check" style="color: green; font-size: 25px;"></i></td>
+                    <td>{{list.employeeDetails.employeeName}}</td>
+                    <!-- <td>{{ list.employeeDetails.designation }}</td>   -->
+                    <td>{{ list.gross.amt }}</td>
+                    <td>{{ list.totalDeduction.amt }}</td>
+                    <td>{{list.netSalary.amt}}</td>
+                    <td>
+                        <button *ngIf="showChequeBtn" class="btn btn-danger" type="button" (click)="addChequeNo(list._id)"><i class="fas fa-edit"></i></button>&nbsp;
+                        <button title="info" class="btn btn-primary" type="button" (click)="showSalarySlipDetails(list._id)"><i class="fas fa-info"></i></button>&nbsp;
+                        <button *ngIf="list.isGenerated" class="btn btn-default btn-fab btn-icon btn-round" type="button" (click)="generatePdf(list._id)"><i class="fas fa-file-download"></i></button>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="6">
+                        <div class="card" style="background-color:whitesmoke" [hidden]="showSalaryDetailsCards[list._id]">
+                            <div *ngIf="salarySlipDetails[list._id] !== undefined">
+                                <table width=100% class="payrollDetails1" *ngFor="let empDetails of salarySlipDetails[list._id].employeeSalaryDetails">
+                                    <tr>
+                                        <th class="text-center" colspan="6" ><b class="display-flex">Payroll Details
+                                            <div *ngIf="!list.isGenerated" class="margin-top3">
+                                            <button title="Update" class="editbutton">
+                                                <a href="javascript:void(0);" routerLink="/pages/payroll/update-payroll/{{list._id}}/{{list.month}}/{{list.year}}"><i  class="fa fa-pencil-square-o"></i></a>
+                                            </button>
+                                        </div></b>
+
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Annual CTC:</th>
+                                        <th>Monthly Pay:</th>
+                                        <th>Earned Leave Balance:</th>
+                                        <th>Account Number:</th>
+                                        <th>Present Days:</th>
+                                        <th>Pay Days:</th>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ empDetails.annuallyctc }}</td>
+                                        <td>{{ empDetails.monthlyctc }}</td>
+                                        <td>{{ empDetails.earnedLeaves }}</td>
+                                        <td>{{ empDetails.accountNum }}</td>
+                                        <td>{{ empDetails.present }}</td>
+                                        <td>{{ empDetails.payDays }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <table width="100%" class="innertable" *ngFor="let empDetailsEarnings of salarySlipDetails[list._id].earningDetails; let i = index">
+                                                <tr *ngIf="i===0">
+                                                    <th colspan="2">Total Earnings</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ empDetailsEarnings.label }}</th>
+                                                    <td>{{ empDetailsEarnings.amt }}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td colspan="3">
+                                            <table width="100%" class="innertable" *ngFor="let empDetailsDeductions of salarySlipDetails[list._id].deductionDetails; let i = index">
+                                                <tr *ngIf="i===0">
+                                                    <th colspan=2>Total Deductions</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>{{ empDetailsDeductions.label }}</th>
+                                                    <td>{{ empDetailsDeductions.amt }}</td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div *ngIf="salarySlipStatus.length != 0">
+            <h3 style="text-align: center;">{{ salarySlipStatus }}</h3>
+        </div>
+    </div>
+</div>

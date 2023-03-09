@@ -1,0 +1,76 @@
+<div class="card card-user">
+   <div class="card-header">
+       <h2 class="card-title text-center">Update Holiday</h2>
+       <!-- <button type="button" class="btn btn-primary btn-circle" routerLink="../../list-holiday"  style="float: right;" ><i class="fa  fa-arrow-right"></i></button> -->
+   </div>
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+             <strong>{{ errMsg }}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+          <p class="alert alert-success" *ngIf="successMessage">
+             <strong>{{ successMsg }}</strong>
+          </p>
+      </div>
+   <form class="form-horizontal" [formGroup]="holidayForm" (ngSubmit)="updateHolidayList()">
+   <div class="row">
+      <div class="col-md">
+         <div class="form-group">
+            <label class="col-sm-6 control-label"><b>Title: &nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+               <input class="form-control" type="text" id="title" placeholder="Enter Title" formControlName="title">
+               <div *ngFor="let validation of validationMessage.title">
+                  <div style="color: red;margin-left: 14px;"
+                     *ngIf="holidayForm.get('title').hasError(validation.type) && (holidayForm.get('title').dirty || holidayForm.get('title').touched)"
+                     style="color: red;margin-left: 14px;">
+                     {{ validation.message }}
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="col-md">
+            <div class="form-group">
+                  <label class="col-sm-6 control-label"><b>Date: &nbsp;<span style="color: darkred">*</span></b></label>
+                  <div class="col-sm-offset-2">
+                     <input class="form-control" type="date" id="holidayDate" placeholder="Enter Date" formControlName="holidayDate">
+                     <div *ngFor="let validation of validationMessage.holidayDate">
+                        <div style="color: red;margin-left: 14px;"
+                           *ngIf="holidayForm.get('holidayDate').hasError(validation.type) && (holidayForm.get('holidayDate').dirty || holidayForm.get('holidayDate').touched)"
+                           style="color: red;margin-left: 14px;">
+                           {{ validation.message }}
+                        </div>
+                     </div>
+                  </div>
+               </div>
+      </div>
+      <div class="col-md">
+            <div class="form-group">
+                  <label class="col-sm-6 control-label"><b>Type: &nbsp;<span style="color: darkred">*</span></b></label>
+                  <div class="col-sm-offset-2">
+                  <select id="htype" class="dropdown dropdown-toggle form-control" formControlName="type" style="width:100%; height: 40px;">
+                     <option ng-selected="true" value="" disabled>----------Select Holiday Type----------</option>
+                     <option *ngFor="let h of holidayName" [value]="h">{{h}}</option>
+                  </select>
+                  <div *ngFor="let validation of validationMessage.type">
+                     <div style="color: red;margin-left: 14px;" *ngIf="holidayForm.get('type').hasError(validation.type) && (holidayForm.get('type').dirty || holidayForm.get('type').touched)" style="color: red;margin-left: 14px;">
+                           {{ validation.message }}
+                     </div>
+                  </div>
+               </div>
+               </div>
+      </div>
+
+   </div>
+      <div class="form-group">
+         <div class="col-sm-offset-2 col-sm-10">
+            <button [disabled]="permissionInfo.search('Edit Holiday') === -1 || holidayForm.invalid"
+             type="submit" class="btn btn-success">Update</button>
+            <button type="button" routerLink="../../list-holiday" class="btn btn-danger">Cancel</button>
+         </div>
+      </div>
+   </form>
+   </div>
+</div>

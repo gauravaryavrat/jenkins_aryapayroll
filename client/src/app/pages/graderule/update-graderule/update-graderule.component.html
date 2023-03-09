@@ -1,0 +1,36 @@
+<div class="card card-user">
+    <div class="card-header">
+        <h2 class="card-title text-center">Update Grade Rule Details</h2>
+    </div>
+    <div class="card-body">
+        <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{ errMsg }}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{ successMsg }}</strong>
+         </p>
+      </div>
+        <form class="form-horizontal" role="form" [formGroup]="graderuleUpdateForm" (ngSubmit)="graderuleUpdateData()"
+        novalidate>
+            <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Title:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                    <input class="form-control" type="text" placeholder="Enter Title" formControlName="title"
+                    >
+                    <div *ngFor="let validation of validationMessage.title">
+                        <div style="color: red;margin-left: 1%;"
+                            *ngIf="graderuleUpdateForm.get('title').hasError(validation.type) && (graderuleUpdateForm.get('title').dirty || graderuleUpdateForm.get('title').touched)"
+                            style="color: red;margin-left: 1%;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success" [disabled]="graderuleUpdateForm.invalid || this.permissionInfo.search('Edit GradeRule') === -1">Update</button>
+            <button class="btn btn-danger" routerLink="/pages/graderule/list-graderule">Cancel</button>
+        </form>
+    </div>
+</div>

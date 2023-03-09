@@ -1,0 +1,62 @@
+.payrollDetails1{
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(142, 133, 133, 0.5);
+    border: 0;
+    border-radius: 5px;
+}
+.payrollDetails1 tr,.payrollDetails1 td,.payrollDetails1 th{
+    border-right: 1px solid #ccc;
+}
+.innertable tr,.innertable td,.innertable th{
+    border-left: 1px solid #ccc;
+}
+.innertable tr:last-child{
+    border-bottom: 1px solid #ccc;
+}
+// .payrollDetails1, th, tr, td{
+//     border: 1px solid #000;
+// }
+.editbutton:focus{
+    outline: none;
+}
+.editbutton {
+    border-radius:10px;
+    color: #51cbce;
+    border: 0;
+    background: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+
+.btn-margin{
+    margin: 0px 2px !important;
+}
+
+@media screen and (max-width:1200px){
+    .right-buttongroup button {
+        padding: 10px 10px;
+    }
+}
+
+@media screen and (max-width:767px){
+    .right-buttongroup {
+        float: right;
+    }
+}
+
+
+.form-group.right-buttongroup {
+    white-space: nowrap;
+    margin-top: 26px;
+}
+
+.display-flex, b{
+display: inline-flex
+}
+
+div, .margin-top3{
+    margin-top: -3px;
+}

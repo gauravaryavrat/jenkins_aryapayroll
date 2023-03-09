@@ -1,0 +1,37 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Holidays List</h2>
+        <button [disabled]="permissionInfo.search('Create Holiday') === -1"
+         class="btn btn-primary" type="button" routerLink="/pages/holiday/add-holiday"
+            style="float: right;" (click)="addHolidays()"><i class="fa fa-plus-square"></i>&nbsp; Add Holiday</button
+            >
+    </div>
+    <table class="table" style="text-align: center;">
+        <thead class=" text-primary">
+            <tr>
+            <th> S.No </th>
+            <th> Title </th>
+            <th>Holiday Date</th>
+            <th> Type </th>
+            <th> Action </th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let list of leaveListData; let i = index">
+            <tr >
+            <td><b>{{ i+1 }}.</b></td>
+            <td> {{ list.title }} </td>
+            <td > {{list.holidayDate |  date }}</td>
+            <td> {{ list.type }} </td>
+            <td>
+                <a [class.disabled]="permissionInfo.search('Edit Holiday') === -1"
+                routerLink="/pages/holiday/update-holiday/{{list._id}}" class="btn btn-primary">
+                    <i class="fa fa-pencil-square-o"></i></a>&nbsp;
+                <button [disabled]="permissionInfo.search('Delete Holiday') === -1"
+                class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)">
+                    <i class="fa fa-trash"></i>
+                </button>
+            </td>
+            </tr>
+    </table>
+
+</div>

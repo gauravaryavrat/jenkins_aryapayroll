@@ -1,0 +1,61 @@
+<div class="card card-u</div>ser">
+   <div class="card-header">
+      <h2 class="card-title text-center">Update Payment Heads</h2>
+   </div>
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{errMsg}}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{successMsg}}</strong>
+         </p>
+      </div>
+      <form class="form-horizontal" role="form" [formGroup]="paymentHeadUpdateForm" (ngSubmit)="updatePaymenthead()" >
+         <div class="row">
+            <div class="col-md">
+               <div class="form-group">
+                     <label class="col-sm-6 control-label"><b>Title:&nbsp;<span style="color: darkred">*</span></b></label>
+                     <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" id="title" placeholder="Enter Title"
+                           formControlName="title">
+                           <div *ngFor="let validation of validationMessage.title">
+                              <div style="color: red;margin-left: 14px;"
+                                 *ngIf="paymentHeadUpdateForm.get('title').hasError(validation.type) && (paymentHeadUpdateForm.get('title').dirty || paymentHeadUpdateForm.get('title').touched)"
+                                 style="color: red;margin-left: 14px;">
+                                 {{ validation.message }}
+                              </div>
+                           </div>
+                     </div>
+                  </div>
+            </div>
+            <div class="col-md">
+               <div class="form-group">
+                        <label class="col-sm-6 control-label"><b>Type:&nbsp;<span style="color: darkred">*</span></b></label>
+                        <div class="col-sm-offset-2">
+                        <select id="type" class="dropdown dropdown-toggle form-control" formControlName="type" style="width:100%; height: 40px;">
+                              <option *ngFor="let h of paymentHeadTypes" [value]="h">{{h}}</option>
+                        </select>
+                        <div *ngFor="let validation of validationMessage.type">
+                           <div style="color: red;margin-left: 14px;"
+                              *ngIf="paymentHeadUpdateForm.get('type').hasError(validation.type) && (paymentHeadUpdateForm.get('type').dirty || paymentHeadUpdateForm.get('type').touched)"
+                              style="color: red;margin-left: 14px;">
+                              {{ validation.message }}
+                           </div>
+                        </div>
+                        </div>
+                     </div>
+            </div>
+         </div>
+
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success" [disabled]="paymentHeadUpdateForm.invalid || permissionInfo.search('Edit PaymentHeads') === -1">Update</button>
+                  <button type="submit" class="btn btn-danger" routerLink="../../list-payment-heads">Cancel</button>
+               </div>
+            </div>
+         </form>
+   </div>
+</div>

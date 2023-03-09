@@ -1,0 +1,344 @@
+<div class="card card-user">
+  <div class="card-header">
+    <h2 class="card-title" #target>Company Details</h2>
+  </div>
+
+  <div class="card-body" >
+    <div class="col-sm-offset-2" >
+      <p class="alert alert-danger" *ngIf="errorMsg" >
+        <strong>{{ errMsg }}</strong>
+      </p>
+    </div>
+    <div class="col-sm-offset-2">
+      <p class="alert alert-success" *ngIf="successMessage" >
+        <strong>{{ successMsg }}</strong>
+      </p>
+    </div>
+
+    <form class="form-horizontal" role="form" [formGroup]="companyForm" (ngSubmit)="companyFormData()" novalidate>
+      <div class="form-group">
+        <label class="col-sm-6 control-label"><b>Name (to appear on reports):&nbsp;<span style="color: darkred">*</span></b></label>
+        <div class="col-sm-offset-2">
+          <input class="form-control" type="text" id="inputName" placeholder="Enter Company Name" formControlName="name">
+          <div *ngFor="let validation of validationMessage.name">
+            <div style="color: red;margin-left: 14px;"
+              *ngIf="companyForm.get('name').hasError(validation.type) && (companyForm.get('name').dirty || companyForm.get('name').touched)"
+              style="color: red;margin-left: 14px;">
+              {{ validation.message }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <label class="col-sm-6 control-label"><b>Address:&nbsp;<span style="color: darkred">*</span></b></label>
+        <div class="col-sm-offset-2">
+          <textarea class="form-control" id="inputAddress" placeholder="Address" formControlName="address"
+          ></textarea>
+          <div *ngFor="let validation of validationMessage.address">
+            <div style="color: red;margin-left: 14px;"
+              *ngIf="companyForm.get('address').hasError(validation.type) && (companyForm.get('address').dirty || companyForm.get('address').touched)"
+              style="color: red;margin-left: 14px;">
+              {{ validation.message }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label class="col-sm-4 control-label"><b>Country:&nbsp;<span style="color: darkred">*</span></b></label>
+            <select class="dropdown dropdown-toggle form-control" id="country" name ="country" (change)="countryName()">
+            </select>
+            <div [ngStyle]="{display: countryMsg === undefined?'none':'block'}" ><p style="color:red;">{{countryMsg}}</p></div>
+          </div>
+          <div class="form-group col-md-6" *ngIf="stateOption">
+            <label class="col-sm-4 control-label"><b>State:</b></label>
+            <select class="dropdown dropdown-toggle form-control" name ="state" id ="state" (change)="stateName()"></select>
+          </div>
+          <div class="form-group col-md-6" *ngIf="!stateOption">
+            <label class="col-sm-4 control-label"><b>State:</b></label>
+            <select class="dropdown dropdown-toggle form-control" disabled>
+              <option class="drop-down">----Country Not Selected----</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <div class="form-group">
+              <label class="col-sm-6 control-label"><b>Domicile:</b></label>
+              <div class="col-sm-offset-2">
+                <input class="form-control" type="text" id="inputDomiclie" placeholder="Enter Domicile"
+                  formControlName="domicile">
+                <div *ngFor="let validation of validationMessage.domicile">
+                  <div style="color: red;margin-left: 14px;"
+                    *ngIf="companyForm.get('domicile').hasError(validation.type) && (companyForm.get('domicile').dirty || companyForm.get('domicile').touched)"
+                    style="color: red;margin-left: 14px;">
+                    {{ validation.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <div class="form-group">
+              <label class="col-sm-6 control-label"><b>Fax Number:</b></label>
+              <div class="col-sm-offset-2">
+                <input class="form-control" type="text" id="inputFax" placeholder="Enter Fax Number:" formControlName="fax">
+                <div *ngFor="let validation of validationMessage.fax">
+                  <div style="color: red;margin-left: 14px;"
+                    *ngIf="companyForm.get('fax').hasError(validation.type) && (companyForm.get('fax').dirty || companyForm.get('fax').touched)"
+                    style="color: red;margin-left: 14px;">
+                    {{ validation.message }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>Email Address:&nbsp;<span style="color: darkred">*</span></b></label>
+          <div class="col-sm-offset-2">
+            <input class="form-control" type="email" id="inputEmail" placeholder="Enter Email " formControlName="email"
+            >
+            <div *ngFor="let validation of validationMessage.email">
+              <div style="color: red;margin-left: 14px;"
+                *ngIf="companyForm.get('email').hasError(validation.type) && (companyForm.get('email').dirty || companyForm.get('email').touched)"
+                style="color: red;margin-left: 14px;">
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>BCC Address for all outgoing mails:</b></label>
+          <div class="col-sm-offset-2">
+            <input class="form-control" type="email" id="inputBcc" placeholder="Enter BCC Address"
+              formControlName="outGoingMails">
+            <div *ngFor="let validation of validationMessage.outGoingMails">
+              <div style="color: red;margin-left: 14px;"
+                *ngIf="companyForm.get('outGoingMails').hasError(validation.type) && (companyForm.get('outGoingMails').dirty || companyForm.get('outGoingMails').touched)"
+                style="color: red;margin-left: 14px;">
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>Bank Name:</b></label>
+          <div class="col-sm-offset-2">
+            <input class="form-control" type="text" placeholder="Enter Bank Name " formControlName="bankName">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>Account Type:</b></label>
+          <div class="col-sm-offset-2">
+            <input class="form-control" type="text" placeholder="Enter Account Type"
+              formControlName="bankType">
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="col-md-6">
+        <div class="form-group">
+            <label class="col-sm-6 control-label"><b>Account Number:</b></label>
+            <div class="col-sm-offset-2">
+              <input class="form-control" placeholder="Enter Account Number"
+                formControlName="bankAccNum">
+              <div *ngFor="let validation of validationMessage.bankAccNum">
+                <div style="color: red;margin-left: 14px;"
+                  *ngIf="companyForm.get('bankAccNum').hasError(validation.type) && (companyForm.get('bankAccNum').dirty || companyForm.get('bankAccNum').touched)"
+                  style="color: red;margin-left: 14px;">
+                  {{ validation.message }}
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="form-group col-md-6">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>Official Company Number:&nbsp;<span style="color: darkred">*</span></b></label>
+          <div class="col-sm-offset-2">
+            <input class="form-control" type="text" id="inputCompanyNo" placeholder="Enter Official Company Number"
+              formControlName="officialNumber">
+            <div *ngFor="let validation of validationMessage.officialNumber">
+              <div style="color: red;margin-left: 14px;"
+                *ngIf="companyForm.get('officialNumber').hasError(validation.type) && (companyForm.get('officialNumber').dirty || companyForm.get('officialNumber').touched)"
+                style="color: red;margin-left: 14px;">
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+        <div class="col-md-6">
+          <div class="form-group">
+            <label class="col-sm-6 control-label"><b>Taxation No:</b></label>
+            <div class="col-sm-offset-2">
+              <input class="form-control" type="text" id="inputTaxationno." placeholder="Enter Taxation Number"
+                formControlName="taxationNumber">
+              <div *ngFor="let validation of validationMessage.taxNumber">
+                <div style="color: red;margin-left: 14px;"
+                  *ngIf="companyForm.get('taxationNumber').hasError(validation.type) && (companyForm.get('taxationNumber').dirty || companyForm.get('taxationNumber').touched)"
+                  style="color: red;margin-left: 14px;">
+                  {{ validation.message }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+              <label class="col-sm-6 control-label"><b>PAN (Permanent Account Number):</b></label>
+              <div class="col-sm-offset-2">
+                <input class="form-control" onkeyup="this.value = this.value.toUpperCase().trim();" type="text" id="inputPanno." placeholder="Enter PAN Number"
+                  formControlName="panNumber">
+                <div *ngFor="let validation of validationMessage.panNo">
+                  <div style="color: red;margin-left: 14px;"
+                    *ngIf="companyForm.get('panNumber').hasError(validation.type) && (companyForm.get('panNumber').dirty || companyForm.get('panNumber').touched)"
+                    style="color: red;margin-left: 14px;">
+                    {{ validation.message }}
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
+     <div class="row">
+       <div class="col-lg-6 col-md-6 col-sm-6">
+     <div class="row">
+      <div class="col-lg-10 col-md-6 col-sm-6">
+        <div class="form-group">
+           <label class="control-label"><b>Company Logo:</b></label><br>
+            <img [src]="url" height="70">
+            <input type="file" class="form-control-file border" id="companyLogo" (change)="onSelectFile($event)" accept="image/*">
+            <div *ngIf="!imageFlag">
+              <p class="imageError">{{ imageError }}</p>
+            </div>
+            <div *ngIf="imageFlag">
+              <p class="imageError">{{ imageErrorMsg }}</p>
+            </div>
+          </div>
+      </div>
+      <div class="col-lg-2 col-md-6 col-sm-6">
+        <div class="delete-button">
+        <button class="btn btn-danger" type="button" (click)="reset()" ><i class="fa fa-trash"></i>&nbsp; Reset</button>
+      </div>
+      </div>
+     </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-6"></div>
+    </div>
+
+      <!-- <div class="form-row">
+      <div class="form-group col-md-6">
+        <label class="col-sm-4 control-label"><b>Home Currency:</b></label>
+        <select class="dropdown dropdown-toggle form-control" Name="HomeCurrency" formControlName="currency">
+          <option class='dropdown-item' ng-selected="true" value="" disabled selected>----------{{currencyOptionValue}}----------</option>
+          <option [ngValue]="homeCurrency.code" *ngFor="let homeCurrency of currency"> {{ homeCurrency.code }}</option>
+        </select>
+      </div>
+        <div class="form-group col-md-4" style="margin-top: 13px;">
+            <button type="button" style="float: left;" class="btn btn-primary" data-toggle="modal" (click)=resetForm() data-target="#myModal">
+             <i class="fa fa-plus-square"></i> Add Currency
+            </button>
+            <button type="button" class="btn btn-danger" style="float: left;" >
+                <i class="fa fa-trash"></i> Delete Currency
+               </button>
+              </div>
+      </div> -->
+            <!-- <div class="modal" id="myModal">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+
+
+                    <div class="modal-header">
+                      <h4 class="modal-title">Add Currency</h4>
+                    </div>
+                    <div class="col-sm-offset-2">
+                      <p class="alert alert-danger" *ngIf="errorMsg">
+                        <strong>{{ errMsg }}</strong>
+                      </p>
+                    </div>
+
+                    <div class="col-sm-offset-2">
+                      <p class="alert alert-success" *ngIf="successMessage">
+                        <strong>{{ successMsg }}</strong>
+                      </p>
+                    </div>
+
+                    <div class="modal-body">
+                      <form role="form" [formGroup]="addCurrencyForm" (ngSubmit)="addCurrency()">
+                        <div class="form-group">
+                          <label class="col-sm-6 control-label"><b>Currency Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                          <input type="text" formControlName="name" placeholder="Enter Currency Name" class="form-control" />
+                          <div *ngFor="let validation of currencyValidationMessage.name">
+                            <div style="color: red;margin-left: 14px;"
+                              *ngIf="addCurrencyForm.get('name').hasError(validation.type) && (addCurrencyForm.get('name').dirty || addCurrencyForm.get('name').touched)"
+                              style="color: red;margin-left: 14px;">
+                              {{ validation.message }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="col-sm-6 control-label"><b>Currency Code:&nbsp;<span style="color: darkred">*</span></b></label>
+                          <input type="text" formControlName="code" placeholder="Enter Currency Code" class="form-control" />
+                          <div *ngFor="let validation of currencyValidationMessage.code">
+                            <div style="color: red;margin-left: 14px;"
+                              *ngIf="addCurrencyForm.get('code').hasError(validation.type) && (addCurrencyForm.get('code').dirty || addCurrencyForm.get('code').touched)"
+                              style="color: red;margin-left: 14px;">
+                              {{ validation.message }}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="button" class="btn btn-danger" id="dismiss" style="float:right;" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-success" style="float:right;" [disabled]='addCurrencyForm.invalid'>Submit</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+             </div> -->
+             <!-- <div class="form-group">
+              <div class="col-sm-offset-2 col-sm-10">
+                <img [src]="url" height="200">
+                <input type="file" class="form-control-file border" (change)="onSelectFile($event)" accept="image/*">
+              </div>
+            </div> -->
+      <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="submit" class="btn btn-success" [disabled]="companyForm.invalid || countryMsg || countryMsg === undefined || imageFlag" (click)="scroll(target)">Add Company</button>
+          <button type="submit" class="btn btn-danger" routerLink="/pages/dashboard/company-list">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

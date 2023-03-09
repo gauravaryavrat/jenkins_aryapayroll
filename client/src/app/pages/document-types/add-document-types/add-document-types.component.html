@@ -1,0 +1,47 @@
+<div class="card card-user">
+   <div class="card-header">
+      <h2 class="card-title text-center">Document Type Details</h2>
+      <button [disabled]="permissionInfo.search('Create DocumentType') === -1"
+      class="btn btn-primary" type="button" routerLink="../list-document-types" style="float: right;"><i class="fa fa-list"></i>&nbsp; Show Document List</button>
+   </div>
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{ errMsg }}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{ successMsg }}</strong>
+         </p>
+      </div>
+      <form class="form-horizontal" role="form" [formGroup]="documentForm" (ngSubmit)="addDocumentType()" novalidate>
+         <div class="form-group">
+             <label class="col-sm-6 control-label"><b>Title: &nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+               <input class="form-control" type="text" id="titleDoc" placeholder="Enter Title" formControlName="title" >
+               <div *ngFor="let validation of validationMessage.title">
+                  <div style="color: red;margin-left: 14px;" *ngIf="documentForm.get('title').hasError(validation.type) && (documentForm.get('title').dirty || documentForm.get('title').touched)" style="color: red;margin-left: 14px;">{{ validation.message }}</div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="col-sm-6 control-label"><b>Description: </b></label>
+            <div class="col-sm-offset-2">
+               <textarea class="form-control" type="textarea" id="descriptionDoc" placeholder="Enter description" formControlName="description"></textarea>
+            </div>
+         </div>
+         <div class="form-group">
+            <label class="control-label">Is Required </label>: <input type="checkbox" name="required" formControlName="isRequired">
+         </div>
+         <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+               <button type="submit"
+                class="btn btn-success" [disabled]="documentForm.invalid || permissionInfo.search('Create DocumentType') === -1">Submit</button>
+               <button type="button"
+                class="btn btn-danger" routerLink="../list-document-types">cancel</button>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

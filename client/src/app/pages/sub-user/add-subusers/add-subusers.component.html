@@ -1,0 +1,101 @@
+
+<div class="card card-user">
+        <ngx-spinner
+        bdColor="rgba(51,51,51,0.8)"
+        size="medium"
+        color="#fff"
+        type="ball-scale-ripple-multiple"
+        >
+        <p style="font-size: 20px; color: white">Loading...</p>
+        </ngx-spinner>
+    <div class="card-header">
+        <h2 class="card-title">Sub-Users Details</h2>
+
+    </div>
+    <div class="card-body">
+        <div class="col-sm-offset-2">
+            <p class="alert alert-danger" *ngIf="errorMsg">
+                <strong>{{ errMsg }}</strong>
+            </p>
+        </div>
+        <div class="col-sm-offset-2">
+            <p class="alert alert-success" *ngIf="successMessage">
+                <strong>{{ successMsg }}</strong>
+            </p>
+        </div>
+        <form class="form-horizontal" role="form" [formGroup]="subUserForm" (ngSubmit)="subUserFormData()" novalidate>
+            <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Full Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                    <input class="form-control" type="text" id="inputName" placeholder="Enter Full Name"
+                        formControlName="name" required>
+                    <div *ngFor="let validation of validationMessage.name">
+                        <div style="color: red;margin-left: 1%;"
+                            *ngIf="subUserForm.get('name').hasError(validation.type) && (subUserForm.get('name').dirty || subUserForm.get('name').touched)"
+                            style="color: red;margin-left: 1%;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Phone Number:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                    <input class="form-control" type="text" id="inputPhone" placeholder="Enter Phone Number"
+                        formControlName="phone">
+                    <div *ngFor="let validation of validationMessage.phone">
+                        <div style="color: red;margin-left: 14px;"
+                            *ngIf="subUserForm.get('phone').hasError(validation.type) && (subUserForm.get('phone').dirty || subUserForm.get('phone').touched)"
+                            style="color: red;margin-left: 14px;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label"><b>Email:&nbsp;<span style="color: darkred">*</span></b></label>
+                        <div class="col-sm-offset-2">
+                            <input class="form-control" type="email" id="inputEmail" placeholder="Enter Email "
+                                formControlName="email" required>
+                            <div *ngFor="let validation of validationMessage.email">
+                                <div style="color: red;margin-left: 14px;"
+                                    *ngIf="subUserForm.get('email').hasError(validation.type) && (subUserForm.get('email').dirty || subUserForm.get('email').touched)"
+                                    style="color: red;margin-left: 14px;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="col-sm-6 control-label"><b>Assign Role:&nbsp;<span
+                              style="color: darkred">*</span></b></label>
+                        <select class="dropdown dropdown-toggle form-control" Name="branchId" formControlName="roleId">
+                           <option class='dropdown-item' ng-selected="true" value="" disabled selected>----------Select Role----------</option>
+                           <option class="dropdown-item" *ngFor="let role of rolePermissionInfo" value="{{role._id}}">
+                              {{role.title}}
+                           </option>
+                        </select>
+                        <div *ngFor="let validation of validationMessage.roleId">
+                              <div style="color: red;margin-left: 14px;"
+                                *ngIf="subUserForm.get('roleId').hasError(validation.type) && (subUserForm.get('roleId').dirty || subUserForm.get('roleId').touched)"
+                                >
+                                {{ validation.message }}
+                              </div>
+                            </div>
+                     </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-success" [disabled]="subUserForm.invalid">Add Subuser</button>
+                    <button type="button" class="btn btn-danger" routerLink="../show-subusers-list">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

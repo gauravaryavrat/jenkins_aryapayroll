@@ -1,0 +1,17 @@
+.nav-link[data-toggle].collapsed:after {
+    content: "▾";
+    float:right;
+    font-size: 20px;
+}
+.nav-link[data-toggle]:not(.collapsed):after {
+    content: "▴";
+    float:right;
+    font-size: 20px;
+}
+.sub-menu-icon{
+    font-size: 15px !important;
+}
+
+// .sidebar:after, .off-canvas-sidebar:after {
+//     background: #0e2a50 !important;
+// }

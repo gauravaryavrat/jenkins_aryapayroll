@@ -1,0 +1,30 @@
+<div class="card">
+   <div class="card-header" style="text-align: center">
+         <h2>Grade Rule</h2>
+         <button [disabled]="permissionInfo.search('Create GradeRule') === -1"
+          class="btn btn-primary" type="button" routerLink="/pages/graderule/add-graderule" style="float:right;" (click)= "addGradeRule()"><i class="fa fa-plus-square"></i>&nbsp; Add Grade Rule</button
+            >
+   </div>
+   <table class="table" style="text-align: center;">
+      <thead class=" text-primary">
+          <tr>
+          <th> S.No </th>
+          <th> Title </th>
+          </tr>
+      </thead>
+      <tbody *ngFor="let list of listGradRuleData; let i = index">
+          <tr >
+          <td><b>{{i+1}}.</b></td>
+          <td> {{list.title}} </td>
+          <td>
+              <a [class.disabled]="permissionInfo.search('Edit GradeRule') === -1"
+              routerLink="/pages/graderule/update-graderule/{{list._id}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+              <button  [disabled]="permissionInfo.search('Delete GradeRule') === -1"
+              class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i>
+              </button>&nbsp;
+              <button [disabled]="permissionInfo.search('Create PaymentHeads') === -1"
+              class="btn btn-info" type="button" routerLink="../list-managePaymentHeads/{{list._id}}">Manage Payment Heads</button>
+          </td>
+          </tr>
+  </table>
+</div>

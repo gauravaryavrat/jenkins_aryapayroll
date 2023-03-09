@@ -1,0 +1,58 @@
+<div class="card card-user">
+   <div class="card-header">
+      <h2 class="card-title text-center">Leave Type Details</h2>
+   </div>
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{errMsg}}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{successMsg}}</strong>
+         </p>
+      </div>
+      <form class="form-horizontal" [formGroup]="leaveForm"   (ngSubmit)="leaveFormData()" novalidate>
+         <div class="form-group">
+             <label class="col-sm-6 control-label"><b>Leave Type Name: <span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+               <input class="form-control" type="text" id="inputName" placeholder="Enter Name"
+                  formControlName="leaveTypeName" required>
+               <div *ngFor="let validation of validationMessage.leaveTypeName">
+                  <div style="color: red;margin-left: 14px;"
+                     *ngIf="leaveForm.get('leaveTypeName').hasError(validation.type) && (leaveForm.get('leaveTypeName').dirty || leaveForm.get('leaveTypeName').touched)"
+                     >
+                     {{validation.message}}
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+             <label class="col-sm-6 control-label"><b>Leave Type Code: <span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+               <input class="form-control" type="text" id="inputName" placeholder="Enter Code"
+                  formControlName="leaveTypeCode" required>
+               <div *ngFor="let validation of validationMessage.leaveTypeCode">
+                  <div style="color: red;margin-left: 14px;"
+                     *ngIf="leaveForm.get('leaveTypeCode').hasError(validation.type) && (leaveForm.get('leaveTypeCode').dirty || leaveForm.get('leaveTypeCode').touched)"
+                     >
+                     {{validation.message}}
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="form-group">
+            <div class="col-sm-offset-2">
+               <label><b>Is Paid: </b></label><input type="checkbox" formControlName="isPaid">
+            </div>
+         </div>
+         <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+               <button type="submit" class="btn btn-success" [disabled]="leaveForm.invalid || permissionInfo.search('Create LeaveType') === -1">Submit</button>
+               <button type="button" class="btn btn-danger" routerLink="../list-leave-types">Cancel</button>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

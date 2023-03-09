@@ -1,0 +1,108 @@
+<div class="card card-user">
+    <!-- <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-scale-ripple-multiple"
+    >
+    <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner> -->
+<div class="card-header">
+    <h2 class="card-title" style="text-align: center;">Earned Leave Details</h2>
+</div>
+<div class="card-body">
+    <div class="col-sm-offset-2">
+        <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{ errMsg }}</strong>
+        </p>
+    </div>
+    <div class="col-sm-offset-2">
+        <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{ successMsg }}</strong>
+        </p>
+    </div>
+    <form class="form-horizontal" role="form" [formGroup]="addEarnedLeaveForm" (ngSubmit)="addLeaveForm()" novalidate>
+        <div class="form-group">
+            <label class="col-sm-6 control-label"><b>Employee Name:&nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+                <select class="dropdown dropdown-toggle form-control" formControlName="employeeId">
+                        <option class='dropdown-item' ng-selected="true" value="" disabled selected>----------Select Employee----------</option>
+                        <option class="dropdown-item" *ngFor="let employee of employeeDetails" value="{{employee._id}}">
+                           {{employee.name}}
+                        </option>
+                     </select>
+                <div *ngFor="let validation of earnedLeavevalidationMessage.employeeId">
+                    <div style="color: red;margin-left: 1%;"
+                        *ngIf="addEarnedLeaveForm.get('employeeId').hasError(validation.type) && (addEarnedLeaveForm.get('employeeId').dirty || addEarnedLeaveForm.get('employeeId').touched)"
+                        style="color: red;margin-left: 1%;">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" [formGroup]="addEarnedLeaveForm.get('earnedLeave')">
+        <div class="form-group col-md-6">
+            <label class="col-sm-6 control-label"><b>Month:&nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+                <select class="dropdown dropdown-toggle form-control" formControlName="month">
+                        <option class='dropdown-item' ng-selected="true" value="" disabled selected>----------Select Month----------</option>
+                        <option class="dropdown-item" *ngFor="let month of earnedLeaveMonths" value="{{month}}">
+                           {{month}}
+                        </option>
+                     </select>
+                <div *ngFor="let validation of earnedLeavevalidationMessage.month">
+                    <div style="color: red;margin-left: 1%;"
+                        *ngIf="addEarnedLeaveForm.get('earnedLeave.month').hasError(validation.type) && (addEarnedLeaveForm.get('earnedLeave.month').dirty || addEarnedLeaveForm.get('earnedLeave.month').touched)"
+                        style="color: red;margin-left: 1%;">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="col-sm-6 control-label"><b>Year:&nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+                <input class="form-control" type="text" id="inputPhone" placeholder="Enter Year"
+                    formControlName="year">
+                <div *ngFor="let validation of earnedLeavevalidationMessage.year">
+                    <div style="color: red;margin-left: 1%;"
+                        *ngIf="addEarnedLeaveForm.get('earnedLeave.year').hasError(validation.type) && (addEarnedLeaveForm.get('earnedLeave.year').dirty || addEarnedLeaveForm.get('earnedLeave.year').touched)"
+                        style="color: red;margin-left: 1%;">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="col-sm-6 control-label"><b>Earned Balance:&nbsp;(in days)&nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+                <input class="form-control" type="email" id="inputEmail" placeholder="Enter Earned Leave balance "
+                    formControlName="leaveCount">
+                <div *ngFor="let validation of earnedLeavevalidationMessage.leaveCount">
+                    <div style="color: red;margin-left: 1%;"
+                        *ngIf="addEarnedLeaveForm.get('earnedLeave.leaveCount').hasError(validation.type) && (addEarnedLeaveForm.get('earnedLeave.leaveCount').dirty || addEarnedLeaveForm.get('earnedLeave.leaveCount').touched)"
+                        style="color: red;margin-left: 1%;">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+                <label class="col-sm-6 control-label"><b>Reason:</b></label>
+                <div class="col-sm-offset-2">
+                    <input class="form-control" type="email" id="inputEmail" placeholder="Enter Reason"
+                        formControlName="reason">
+                </div>
+        </div>
+
+    </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" [disabled]="addEarnedLeaveForm.invalid || permissionInfo.search('Create EarnedLeave') === -1">Submit</button>
+                <button type="button" class="btn btn-danger" routerLink="../list-earned-leave">Cancel</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+</div>

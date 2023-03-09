@@ -1,0 +1,171 @@
+<div class="sidebar" data-color="white" data-active-color="danger">
+  <!--
+      Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red | yellow | Darkblue"
+  -->
+  <div class="logo">
+    <a routerLink="/pages/dashboard/" class="simple-text logo-mini">
+      <div class="logo-image-small">
+        <img [src]='sideBarCompanyLogo'>
+      </div>
+    </a>
+    <a routerLink="/pages/dashboard" style="cursor: pointer" class="simple-text logo-normal">
+     {{ sideBarCompanyName }}
+    </a>
+  </div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li class="list-group">
+        <a routerLink="/pages/dashboard/">
+          <i class="fa fa-home"></i>
+          <p>Dashboard</p>
+        </a>
+      </li>
+      <li class="list-group" *ngIf="adminStatus">
+        <a routerLink="/pages/roles/" >
+          <i class="fas fa-user-tag"></i>
+          <p>Roles</p>
+        </a>
+      </li>
+      <li class="list-group" *ngIf="adminStatus">
+        <a routerLink="/pages/sub-user/">
+          <i class="fa fa-users"></i>
+          <p>Users</p>
+        </a>
+      </li>
+      <li class="list-group" [ngStyle]="{'display':companyLength > 0 ? 'block' : 'none'}">
+        <a routerLink="/pages/branches/">
+          <i class="fas fa-building"></i>
+          <p>Branches</p>
+        </a>
+      </li>
+      <li class="list-group" [ngStyle]="{'display':companyLength > 0 ? 'block' : 'none'}">
+        <a routerLink="/pages/department/">
+          <i class="fa fa-sitemap"></i>
+          <p>Departments</p>
+        </a>
+      </li>
+      <li [ngStyle]="{'display':companyLength > 0 ? 'block' : 'none'}">
+        <a data-toggle="collapse" href="#pagesExamples" class="collapsed" aria-expanded="false">
+          <i class="fa fa-forward"></i>
+          <p>Employee Masters<b class="caret"></b></p>
+        </a>
+        <div class="collapse" id="pagesExamples" >
+          <ul class="nav">
+            <li class="list-group">
+              <a routerLink="/pages/leave-types/">
+                <i class="fa fa-life-saver sub-menu-icon"></i>
+                <p>Leave Types</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/job-profile/">
+                <i class="fas fa-id-card sub-menu-icon"></i>
+                <p>Job Profiles</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/job-category/">
+                <i class="fa fa-tasks sub-menu-icon"></i>
+                <p>Job Categories</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/skill-category/">
+                <i class="fa fa-shekel sub-menu-icon"></i>
+                <p>Skill Categories</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/document-types/">
+                <i class="fa fa-file sub-menu-icon"></i>
+                <p>Document Types</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/holiday/">
+                <i class="fa fa-bed sub-menu-icon"></i>
+                <p>Holidays</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/payment-heads/">
+                <i class="fas fa-chart-area"></i>
+                <p>Payment Heads</p>
+              </a>
+            </li>
+            <li class="list-group">
+              <a routerLink="/pages/graderule/">
+                <i class="fab fa-pied-piper-hat"></i>
+                <p>Grade Rule</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="list-group" [ngStyle]="{'display':companyLength > 0 ? 'block' : 'none'}">
+        <a routerLink="/pages/employee-wizard/">
+          <i class="fa fa-group"></i>
+          <p>Employees</p>
+        </a>
+      </li>
+
+      <li [ngStyle]="{'display':employeeLength > 0 ? 'block' : 'none'}">
+        <a data-toggle="collapse" href="#leaveManagement" class="collapsed" aria-expanded="false">
+          <i class="fa fa-forward"></i>
+          <p>Leave Management<b class="caret"></b></p>
+        </a>
+        <div class="collapse" id="leaveManagement" >
+          <ul class="nav">
+            <li class="list-group">
+              <a routerLink="/pages/leave-management/">
+                <i class="fa fa-life-saver sub-menu-icon"></i>
+                <p>Manage Earned Leave</p>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav">
+            <li class="list-group">
+              <a routerLink="/pages/leave-management/list-leave">
+                <i class="fas fa-door-open sub-menu-icon"></i>
+                <p>Manage Leave Status</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li [ngStyle]="{'display':employeeLength > 0 ? 'block' : 'none'}">
+        <a data-toggle="collapse" href="#payrollManagement" class="collapsed" aria-expanded="false">
+          <i class="fa fa-forward"></i>
+          <p>Payroll<b class="caret"></b></p>
+        </a>
+        <div class="collapse" id="payrollManagement" >
+          <ul class="nav">
+            <li class="list-group">
+              <a routerLink="/pages/payroll">
+                <i class="fa fa-money sub-menu-icon"></i>
+                <p>Salary Slips</p>
+              </a>
+            </li>
+          </ul>
+          <ul class="nav">
+            <li class="list-group">
+              <a routerLink="/pages/payroll/payroll-sheet">
+                <i class="fa fa-file-excel-o sub-menu-icon"></i>
+                <p>Salary Sheets</p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
+      <li class="list-group" [ngStyle]="{'display':companyLength > 0 ? 'block' : 'none'}">
+        <a routerLink="/pages/company/company-report">
+          <i class="fa fa-file"></i>
+          <p>Company Report</p>
+        </a>
+      </li>
+
+
+
+    </ul>
+  </div>

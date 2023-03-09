@@ -1,0 +1,26 @@
+version: '3'
+services:
+ client:
+  image: aryapayroll-client:v2
+  ports:
+    - 80:80
+    - 443:443
+  restart: always
+
+ server:
+  image: aryapayroll-server:v7
+  ports:
+    - 3002:3002
+  restart: always
+
+ mongodb:
+  image: mongo:5.0.14
+  ports:
+    - 27017:27017
+  volumes:
+      # named volumes
+    - mongodatabase:/data/db
+  restart: always
+
+volumes:
+ mongodatabase:

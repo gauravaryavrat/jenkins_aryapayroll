@@ -1,0 +1,82 @@
+<div class="card card-user">
+    <div class="card-header">
+        <h2 class="card-title text-center">Update Permissions</h2>
+        <h4 class="card-title text-center titleHeading">Role Title: {{roleTitle}}</h4>
+    </div>
+    <div class="card-body">
+        <div class="col-sm-offset-2">
+            <p class="alert alert-danger" *ngIf="errorFlag">
+                <strong>{{ errMsg }}</strong>
+            </p>
+        </div>
+        <div class="col-sm-offset-2">
+            <p class="alert alert-success" *ngIf="successFlag">
+                <strong>{{ successMsg }}</strong>
+            </p>
+        </div>
+        <form class="form-horizontal" role="form" (ngSubmit)="submitPermissions()"
+        novalidate>
+       <div class="permission-form">
+        <h4 class="card-title text-center">Permissions</h4>
+       <div class="contain">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4">
+               <div class="create-section">
+                <h5>Create</h5>
+                <div class="stackblitz-container material">
+                    <div class="control-section ">
+                    <div class="control-wrapper">
+                    <input type="text" id="createCheckbox">
+                    </div>
+                    </div>
+                    <div class="col-lg-4 property-section">
+                    <div id="property" title="Properties">
+                    <table id="property" title="Properties">
+                    </table>
+                    </div>
+                    </div>
+                    </div>
+               </div>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Edit</h5>
+                <div class="stackblitz-container material">
+                    <div class="control-section ">
+                    <div class="control-wrapper">
+                    <input type="text" id="editCheckbox">
+                    </div>
+                    </div>
+                    <div class="col-lg-4 property-section">
+                    <div id="property" title="Properties">
+                    <table id="property" title="Properties">
+                    </table>
+                    </div>
+                    </div>
+                    </div>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Delete</h5>
+                <div class="stackblitz-container material">
+                    <div class="control-section">
+                    <div class="control-wrapper">
+                    <input type="text" id="deleteCheckbox">
+                    </div>
+                    </div>
+                    <div class="col-lg-4 property-section">
+                    <div id="property" title="Properties">
+                    <table id="property" title="Properties">
+                    </table>
+                    </div>
+                    </div>
+                    </div>
+            </div>
+        </div>
+       </div>
+       </div>
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button class="btn btn-danger" type="button" routerLink="/pages/roles/list-permission/{{roleId}}">Cancel</button>
+        </form>
+    </div>
+</div>

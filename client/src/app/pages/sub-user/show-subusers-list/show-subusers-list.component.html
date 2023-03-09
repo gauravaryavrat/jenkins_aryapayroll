@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Sub-Users List</h2>
+        <a class="btn btn-primary" routerLink="../add-subuser" style="float:right;"><i class="fa fa-plus"></i>&nbsp;
+            Add User</a>
+    </div>
+
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let list of subUsersListData">
+                <strong><b (click)="showData(list._id)"
+                        style="cursor: pointer">{{list.profile.contactInfo?.firstName + " " + list.profile.contactInfo?.lastName}}</b></strong>
+                <div style="float: right;">
+                    <i class="dropdown-toggle" (click)="showData(list._id)"></i>
+                </div>
+                <div class="card" style="background-color:ghostwhite" [hidden]="showCard[list._id]">
+                    <table class="table" style="margin: auto">
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>{{list.profile.contactInfo?.firstName + " " + list.profile.contactInfo?.lastName}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phone No.</strong></td>
+                            <td>{{ list.profile.contactInfo.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Email:</strong></td>
+                            <td>{{ list.local.email }}</td>
+                        </tr>
+                    </table>
+                    <div>
+                        <a routerLink="../update-subuser-data/{{list._id}}" style="float: right;"
+                            class="btn btn-primary">
+                            <i class="fa fa-pencil-square-o"></i></a>
+                        <button style="float: right;" class="btn btn-danger" type="button"
+                            (click)="deleteSubUserListData(list._id)">
+                            <i class="fa fa-trash"></i></button>
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>

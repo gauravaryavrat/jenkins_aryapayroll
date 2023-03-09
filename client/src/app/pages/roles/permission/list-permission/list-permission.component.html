@@ -1,0 +1,30 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="text-align: center">Permissions List</h2>
+        <button class="btn btn-primary" type="button" routerLink="/pages/roles/update-permission/{{roleId}}"
+            style="float: right;"><i class="fa fa-plus-square"></i>&nbsp; Update Permissions</button>
+            <button class="btn btn-primary" type="button" routerLink="/pages/roles/list-role"
+            style="float: right;"><i class="fa fa-arrow-left"></i></button>
+            <h4>{{ roleTitle }}</h4>
+    </div>
+
+    <table class="table" style="text-align: center;">
+      <thead class=" text-primary">
+          <tr>
+          <th>S.No</th>
+          <th>Permissions Given</th>
+          <th>Action</th>
+          </tr>
+      </thead>
+      <tbody *ngFor="let permission of permissionInfo; let i = index">
+          <tr >
+          <td><b>{{i+1}}.</b></td>
+          <td> {{permission.title}} </td>
+          <td>
+              <button class="btn btn-danger" type="button" (click)="deletePermission(permission._id)"><i class="fa fa-trash"></i>
+              </button>&nbsp;
+          </td>
+          </tr>
+          </tbody>
+    </table>
+</div>

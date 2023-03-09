@@ -1,0 +1,171 @@
+<div class="card card-user">
+    <!-- <ngx-spinner
+    bdColor="rgba(51,51,51,0.8)"
+    size="medium"
+    color="#fff"
+    type="ball-scale-ripple-multiple"
+    >
+    <p style="font-size: 20px; color: white">Loading...</p>
+    </ngx-spinner> -->
+<div class="card-header">
+    <h2 class="card-title" style="text-align: center;">Employee Absent Details</h2>
+</div>
+<div class="card-body">
+    <div class="col-sm-offset-2">
+        <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{ errMsg }}</strong>
+        </p>
+    </div>
+    <div class="col-sm-offset-2">
+        <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{ successMsg }}</strong>
+        </p>
+    </div>
+    <form class="form-horizontal" role="form" [formGroup]="addEmployeeAbsentForm" (ngSubmit)="markEmployeeAbsent()" novalidate >
+     <div class="row" >
+            <div class="form-group col-md-6">
+                    <label class="col-sm-6 control-label"><b>Employee Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                    <select class="dropdown dropdown-toggle form-control" id="absentLeave" formControlName="userId" (change)="getEmployeeTL($event.target.value)">
+                            <option class='dropdown-item' ng-selected="true" value="" disabled selected>Select Employee</option>
+                            <option class="dropdown-item" *ngFor="let employee of employeeList"  value="{{employee._id}}">
+                               {{employee.name}}
+                            </option>
+                         </select>
+                         <div *ngFor="let validation of absentFieldValidationMessage.userId">
+                                <div style="color: red;margin-left: 1%;"
+                                    *ngIf="addEmployeeAbsentForm.get('userId').hasError(validation.type) && (addEmployeeAbsentForm.get('userId').dirty || addEmployeeAbsentForm.get('userId').touched)"
+                                    style="color: red;margin-left: 1%;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                </div>
+                <div class="form-group col-md-6" *ngIf="showTlOption">
+                        <label class="col-sm-6 control-label"><b>TL/Manager Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                        <select class="dropdown dropdown-toggle form-control" id="absentLeave" formControlName="requestToUserId">
+                                <option class='dropdown-item' ng-selected="true" value="" disabled selected>Select Employee</option>
+                                <option class="dropdown-item" *ngFor="let employeeTL of employeeTlList"  value="{{employeeTL._id}}">
+                                   {{employeeTL.displayName}}
+                                </option>
+                             </select>
+                             <div *ngFor="let validation of absentFieldValidationMessage.requestToUserId">
+                                    <div style="color: red;margin-left: 1%;"
+                                        *ngIf="addEmployeeAbsentForm.get('requestToUserId').hasError(validation.type) && (addEmployeeAbsentForm.get('requestToUserId').dirty || addEmployeeAbsentForm.get('requestToUserId').touched)"
+                                        style="color: red;margin-left: 1%;">
+                                        {{ validation.message }}
+                                    </div>
+                                </div>
+                    </div>
+            <div class="form-group col-md-6">
+                <label class="col-sm-6 control-label"><b>Reason:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" id="leaveReason" placeholder="Enter Leave Reason"
+                        formControlName="reason">
+                    <div *ngFor="let validation of absentFieldValidationMessage.reason">
+                        <div style="color: red;margin-left: 1%;"
+                            *ngIf="addEmployeeAbsentForm.get('reason').hasError(validation.type) && (addEmployeeAbsentForm.get('reason').dirty || addEmployeeAbsentForm.get('reason').touched)"
+                            style="color: red;margin-left: 1%;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+         <div class="form-group col-md-6">
+            <label class="col-sm-6 control-label"><b>Type:&nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+                    <select class="dropdown dropdown-toggle form-control" id="absentLeave" formControlName="leaveTypeId">
+                            <option class='dropdown-item' ng-selected="true" value="" disabled selected>Enter Leave Type</option>
+                            <option class="dropdown-item" *ngFor="let leave of leaveListData"  value="{{leave.leaveTypeName}}">
+                               {{leave.leaveTypeName}}
+                            </option>
+                         </select>
+                <div *ngFor="let validation of absentFieldValidationMessage.leaveTypeId">
+                    <div style="color: red;margin-left: 1%;"
+                        *ngIf="addEmployeeAbsentForm.get('leaveTypeId').hasError(validation.type) && (addEmployeeAbsentForm.get('leaveTypeId').dirty || addEmployeeAbsentForm.get('leaveTypeId').touched)"
+                        style="color: red;margin-left: 1%;">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="form-group col-md-6">
+            <label class="col-sm-6 control-label"><b>From Date:&nbsp;<span style="color: darkred">*</span></b></label>
+            <div class="col-sm-offset-2">
+                <input class="form-control" type="date" id="txtStartDate" placeholder="Enter From Date" (change)="DateCheck()"
+                    formControlName="fromDate">
+                <div *ngFor="let validation of absentFieldValidationMessage.fromDate">
+                    <div style="color: red;margin-left: 1%;"
+                        *ngIf="addEmployeeAbsentForm.get('fromDate').hasError(validation.type) && (addEmployeeAbsentForm.get('fromDate').dirty || addEmployeeAbsentForm.get('fromDate').touched)"
+                        style="color: red;margin-left: 1%;">
+                        {{ validation.message }}
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-sm-6 control-label"><b>To Date:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                    <input class="form-control" type="date" id="txtEndDate" placeholder="Enter To Date" (change)="DateCheck()"
+                        formControlName="toDate">
+                    <div *ngFor="let validation of absentFieldValidationMessage.toDate">
+                        <div style="color: red;margin-left: 14px;"
+                            *ngIf="addEmployeeAbsentForm.get('toDate').hasError(validation.type) && (addEmployeeAbsentForm.get('toDate').dirty || addEmployeeAbsentForm.get('toDate').touched)"
+                            style="color: red;margin-left: 14px;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                <label class="col-sm-6 control-label"><b>From Leave For:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                    <select class="dropdown dropdown-toggle form-control" formControlName="fromLeaveFor">
+                            <option class='dropdown-item' ng-selected="true" value="" disabled selected>Enter From Leave For</option>
+                            <option class="dropdown-item" *ngFor="let leave of formToLeaveFor"  value="{{leave}}">
+                               {{leave}}
+                            </option>
+                         </select>
+                    <div *ngFor="let validation of absentFieldValidationMessage.fromLeaveFor">
+                        <div style="color: red;margin-left: 1%;"
+                            *ngIf="addEmployeeAbsentForm.get('fromLeaveFor').hasError(validation.type) && (addEmployeeAbsentForm.get('fromLeaveFor').dirty || addEmployeeAbsentForm.get('fromLeaveFor').touched)"
+                            style="color: red;margin-left: 1%;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6">
+                    <label class="col-sm-6 control-label"><b>To Leave For:&nbsp;<span style="color: darkred">*</span></b></label>
+                    <div class="col-sm-offset-2">
+                        <select class="dropdown dropdown-toggle form-control" formControlName="toLeaveFor">
+                                <option class='dropdown-item' ng-selected="true" value="" disabled selected>Enter To Leave For</option>
+                                <option class="dropdown-item" *ngFor="let leave of formToLeaveFor" value="{{leave}}">
+                                {{leave}}
+                                </option>
+                             </select>
+                        <div *ngFor="let validation of absentFieldValidationMessage.toLeaveFor">
+                            <div style="color: red;margin-left: 1%;"
+                                *ngIf="addEmployeeAbsentForm.get('toLeaveFor').hasError(validation.type) && (addEmployeeAbsentForm.get('toLeaveFor').dirty || addEmployeeAbsentForm.get('toLeaveFor').touched)"
+                                style="color: red;margin-left: 1%;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+          </div>
+          <div class="form-group col-md-6">
+                <label class="col-sm-6 control-label"><b>Leave Status:</b></label>
+                <div class="col-sm-offset-2">
+                  <input class="form-control" type="text"
+                      formControlName="status" disabled>
+                </div>
+            </div>
+     </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" [disabled]="addEmployeeAbsentForm.invalid">Submit</button>
+                <button type="button" class="btn btn-danger" routerLink="../list-leave">Cancel</button>
+
+            </div>
+        </div>
+    </form>
+</div>
+</div>

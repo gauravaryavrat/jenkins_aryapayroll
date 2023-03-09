@@ -1,0 +1,144 @@
+<div class="card">
+    <div class="card-header">
+    </div>
+    <div class="card-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-body" style="background-color:whitesmoke;">
+                            <div class="card-title mb-4">
+                                <div class="d-flex justify-content-start">
+                                    <div class="image-container">
+                                        <img [src]='url' id="imgProfile" style="width: 150px; height: 150px" class="rounded" />
+                                        <div class="middle">
+                                            <input type="file" style="display: none;" accept="image/*" id="profilePicture" #file (change)="onSelectFile($event)"/>
+                                            <input type="button" class="btn btn-secondary" id="btnChangePicture" value="Change" (click)="file.click()" />
+                                        </div>
+                                    </div>
+                                    <div class="userData ml-3">
+                                        <h2 class="d-block" style="font-size: 1.5rem; font-weight: bold; color: #51cbce; margin-top: 59px">{{ cardProfileName }}</h2>
+                                        <!-- <h6 class="d-block"><a href="javascript:void(0)">1,500</a> Video Uploads</h6>
+                                        <h6 class="d-block"><a href="javascript:void(0)">300</a> Blog Posts</h6> -->
+                                    </div>
+                                    <div class="ml-auto" *ngIf="discardChanges">
+                                        <input type="button" class="btn btn-danger" id="btnDiscard" value="Discard Changes" (click)="discardFunctionality()"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <form class="form-horizontal" [formGroup]="updateProfileForm" role="form" (ngSubmit)="updateProfileData()" novalidate>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="basicInfo-tab" data-toggle="tab" href="#basicInfo" role="tab" aria-controls="basicInfo" aria-selected="true">Basic Info</a>
+                                            </li>
+                                            <!-- <li class="nav-item">
+                                                <a class="nav-link" id="connectedServices-tab" data-toggle="tab" href="#connectedServices" role="tab" aria-controls="connectedServices" aria-selected="false">Connected Services</a>
+                                            </li> -->
+                                        </ul>
+                                        <div class="tab-content ml-1" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="basicInfo" role="tabpanel" aria-labelledby="basicInfo-tab">
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-md-2 col-5">
+                                                        <label style="font-weight:bold;">Full Name</label>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <input class="form-demo" type="text" id="profileName" placeholder="Enter Full Name" formControlName="name" (input)='changeName()'/>
+                                                    </div>
+                                                </div>
+                                                <hr />
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-md-2 col-5">
+                                                        <label style="font-weight:bold;">Birth Date</label>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <input class="form-demo" type="date" placeholder="Select DOB" formControlName="birthday"/>
+                                                    </div>
+                                                </div>
+                                                <hr />
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-md-2 col-5">
+                                                        <label style="font-weight:bold;">Gender</label>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <select class="dropdown dropdown-toggle form-demo single" Name="Company" formControlName="gender">
+                                                            <option class="dropdown-item" *ngFor="let gender of genderList" selected="{{ gender }}"
+                                                                value="{{ gender }}">
+                                                                {{ gender }}
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-md-2 col-5">
+                                                        <label style="font-weight:bold;">Phone No.</label>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <input class="form-demo" type="text"  placeholder="Enter Phone Number" formControlName="phone"/>
+                                                        <div *ngFor="let validation of validationMessage.phone">
+                                                            <div style="color: red;margin-left: 14px;"
+                                                              *ngIf="updateProfileForm.get('phone').hasError(validation.type) && (updateProfileForm.get('phone').dirty || updateProfileForm.get('phone').touched)"
+                                                              style="color: red;margin-left: 14px;">
+                                                              {{ validation.message }}
+                                                            </div>
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+                                                <div class="row">
+                                                    <div class="col-sm-3 col-md-2 col-5">
+                                                        <label style="font-weight:bold;">TimeZone:</label>
+                                                    </div>
+                                                    <div class="col-md-8 col-6">
+                                                        <div class="stackblitz-container material">
+                                                            <div class="control-section col-lg-8">
+                                                            <div class="control-wrapper">
+                                                            <input type="text" id="checkbox">
+                                                            </div>
+                                                            </div>
+                                                            <div class="col-lg-4 property-section">
+                                                            <div id="property" title="Properties">
+                                                            <table id="property" title="Properties">
+                                                            </table>
+                                                            </div>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+                                                </div>
+                                                <hr />
+
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-10">
+                                                  <button type="submit" class="btn btn-success" [disabled]="updateProfileForm.invalid">Update Profile</button>
+                                                  <button type="submit" class="btn btn-danger" routerLink="/pages/dashboard/company-list">Cancel</button>
+
+
+                                                </div>
+                                              </div>
+                                            <!-- <div class="tab-pane fade" id="connectedServices" role="tabpanel" aria-labelledby="ConnectedServices-tab">
+                                                Facebook, Google, Twitter Account that are connected to this account
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>

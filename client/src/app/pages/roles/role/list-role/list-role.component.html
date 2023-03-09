@@ -1,0 +1,28 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+          <h2>Roles</h2>
+          <button class="btn btn-primary" type="button" routerLink="/pages/roles/add-role" style="float:right;"><i class="fa fa-plus-square"></i>&nbsp; Add Role</button>
+    </div>
+    <table class="table" style="text-align: center;">
+       <thead class=" text-primary">
+           <tr>
+           <th> S.No </th>
+           <th> Title </th>
+           <th> Description </th>
+           <th> Action </th>
+           </tr>
+       </thead>
+       <tbody *ngFor="let role of rolesInfo; let i = index">
+           <tr>
+           <td><strong>{{i+1}}.</strong></td>
+           <td> {{role.title}} </td>
+           <td> {{role.description}} </td>
+           <td>
+               <a routerLink="/pages/roles/update-role/{{role._id}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+               <!-- <button class="btn btn-danger" type="button"><i class="fa fa-trash"></i>
+               </button>&nbsp; -->
+               <button class="btn btn-info" type="button" routerLink="/pages/roles/list-permission/{{role._id}}">Manage Role Permissions</button>
+           </td>
+           </tr>
+   </table>
+ </div>

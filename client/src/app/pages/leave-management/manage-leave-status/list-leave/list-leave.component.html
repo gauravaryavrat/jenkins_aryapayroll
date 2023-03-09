@@ -1,0 +1,126 @@
+<div class="card">
+    <div class="card-header">
+        <h2 class="text-center">Employee Leave List</h2>
+    </div>
+    <div class="card-body">
+
+
+        <div class="form-row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><b>Employee Name:</b></label>
+                    <select class="dropdown dropdown-toggle form-control" id="leaveListEmployee">
+                        <option class='dropdown-item' ng-selected="true" value="" disabled selected>Select Employee
+                        </option>
+                        <option class="dropdown-item" *ngFor="let employee of companyEmployeelist"
+                            value="{{employee._id}}">
+                            {{employee.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Date:</b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="date" id="leaveListDate">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group right-buttongroup">
+                    <button class="btn btn-primary" (click)="filterFunctionality()"><i class="fa fa-filter"></i>&nbsp;
+                        Filter</button>
+                        <button class="btn btn-danger" (click)="resetFilter()"><i class="fas fa-trash-restore"></i>&nbsp;
+                            Reset</button>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group right-buttongroup">
+                    <button class="btn btn-primary" routerLink="/pages/leave-management/mark-absent"><i
+                        class="fa fa-plus-square"></i>&nbsp; Mark Employee Absent</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="card-body">
+        <div class="card" style="background-color:whitesmoke;">
+            <div class="panel-body">
+                <ul class="list-group">
+                    <div class="card-body">
+                        <table class="table" style="text-align: center;">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Employee Name </th>
+                                    <th>Reason </th>
+                                    <th>Type</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let leaveList of companyEmployeeLeaveList">
+                                <tr>
+                                    <td> {{leaveList.userName}} </td>
+                                    <td> {{leaveList.reason}} </td>
+                                    <td> {{leaveList.leaveTypeName}} </td>
+                                    <td> {{leaveList.status}}</td>
+                                    <td>
+                                        <button title="Info" class="btn btn-primary" (click)='leaveInfo(leaveList._id)'
+                                            style="color: white;"><i class="fas fa-binoculars"></i>
+                                        </button>&nbsp;
+                                        <select class="dropdown dropdown-toggle form-control" id="actionList"
+                                            (change)="actionTaken($event.target.value,leaveList.requestToUserId,leaveList._id)">
+                                            <option class='dropdown-item' ng-selected="true" value="" disabled selected>
+                                                Choose Action</option>
+                                            <option class="dropdown-item" *ngFor="let action of listActions"
+                                                value="{{action}}">
+                                                {{action}}
+                                            </option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <table class="table card"
+                                            style="text-align: left;background-color:rgb(178, 218, 208);"
+                                            [hidden]="showInfoCard[leaveList._id]">
+                                            <tr>
+                                                <th>Request To TL/Manager:</th>
+                                                <td>{{ leaveList.requestToName }}</td>
+                                                <th>Applied Date:</th>
+                                                <td>{{ leaveList.metaData.createdAt | date:'fullDate' }}
+                                                    {{ leaveList.metaData.createdAt | date:'shortTime' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>From Date:</th>
+                                                <td>{{ leaveList.fromDate | date:'fullDate' }}
+                                                    {{ leaveList.fromDate | date:'shortTime' }}</td>
+                                                <th>From Leave For</th>
+                                                <td>{{ leaveList.fromLeaveFor }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>To Date:</th>
+                                                <td>{{ leaveList.toDate | date:'fullDate' }}
+                                                    {{ leaveList.toDate | date:'shortTime' }}</td>
+                                                <th>To Leave For</th>
+                                                <td>{{ leaveList.toLeaveFor }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div *ngIf="leaveListMessage.length != 0">
+        <h3 style="text-align: center;">{{ leaveListMessage }}</h3>
+    </div>
+
+</div>

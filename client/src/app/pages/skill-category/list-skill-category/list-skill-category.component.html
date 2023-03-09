@@ -1,0 +1,43 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Skill Category</h2>
+        <button [disabled]="permissionInfo.search('Create SkillCategory') === -1"
+         class="btn btn-primary" type="button" routerLink="/pages/skill-category/add-skill-category"style="float: right;" (click)= "addSkillCategory()"><i class="fa fa-plus-square"></i>&nbsp; Add skill Category</button
+            >
+    </div>
+    <!-- <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let list of leaveListData">
+                <div class="row">
+                    <div class="col-md-10">
+                        <p><b>Skill Name: </b> {{list?.skillName}} </p>
+                    </div>
+                    <div class="cpl-md-2">
+                        <a routerLink="/pages/skill-category/update-skill-category/{{list?._id}}"style="float: right" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+                        <button style="float: right;" class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div> -->
+    <table class="table" style="text-align: center;">
+        <thead class=" text-primary">
+            <tr>
+            <th> S.No </th>
+            <th> Skill Name </th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let list of leaveListData; let i = index">
+            <tr >
+            <td><b>{{ i+1 }}.</b></td>
+            <td> {{ list.skillName }} </td>
+            <td>
+                <a [class.disabled]="permissionInfo.search('Edit SkillCategory') === -1"
+                routerLink="/pages/skill-category/update-skill-category/{{list?._id}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+                <button [disabled]="permissionInfo.search('Delete SkillCategory') === -1"
+                 class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i></button
+                    >
+            </td>
+            </tr>
+    </table>
+</div>

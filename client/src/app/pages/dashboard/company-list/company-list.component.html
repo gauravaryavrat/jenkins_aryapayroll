@@ -1,0 +1,90 @@
+
+<div class="card">
+        <ngx-spinner
+        bdColor="rgba(51,51,51,0.8)"
+        size="large"
+        color="#fff"
+        type="square-jelly-box"
+      >
+        <p style="font-size: 20px; color: white">Loading...</p>
+      </ngx-spinner>
+    <div class="card-header" style="text-align: center">
+        <h2>Company List</h2>
+        <a [class.disabled]="permissionsInfo.search('Create Company') === -1"
+        class="btn btn-primary" routerLink="/pages/company/add-company" style="float: right;"><i
+                class="fa fa-plus-square"></i>&nbsp; Add Company</a>
+
+
+    </div>
+
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let list of individualCompanyData">
+                <strong><b (click)="showData(list._id)" style="cursor: pointer">{{ list.name }}</b></strong>
+                <div style="float: right;">
+                    <i class="dropdown-toggle" (click)="showData(list._id)"></i>
+                </div>
+                <div class="card" style="background-color:ghostwhite" [hidden]="showCard[list._id]">
+                    <table class="table" style="margin: auto">
+                        <tr>
+                            <td><strong>Name:</strong></td>
+                            <td>{{ list.name }}</td>
+                            <td><strong>Address:</strong></td>
+                            <td>{{ list.address}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Domicile:</strong></td>
+                            <td>{{ list.domicile}}</td>
+                            <td><strong>Official Company Number:</strong></td>
+                            <td>{{ list.officialNumber}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Fax Number:</strong></td>
+                            <td>{{ list.fax}}</td>
+                            <td><strong>Email Address:</strong></td>
+                            <td>{{ list.email}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Bank Name:</strong></td>
+                            <td>{{ list.bankName}}</td>
+                            <td><strong>Account No:</strong></td>
+                            <td>{{ list.bankAccNum}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Country:</strong></td>
+                            <td>{{ list.countryName}}</td>
+                            <td><strong>Currency:</strong></td>
+                            <td>{{ list.currency}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Taxation No:</strong></td>
+                            <td>{{ list.taxationNumber}}</td>
+                            <td><strong>PAN No:</strong></td>
+                            <td>{{ list.panNumber}}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BCC Address for all outgoing mails:</strong></td>
+                            <td>{{ list.outGoingMails}}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div>
+                            <a [class.disabled]="permissionsInfo.search('Edit Company') === -1"
+                            routerLink="/pages/company/update-company-list/{{ list._id }}" style="float: right"
+                            class="btn btn-primary">
+                            <i class="fa fa-pencil-square-o"></i> </a>
+                        <button [disabled]="permissionsInfo.search('Delete Company') === -1"
+                        style="float: right;" class="btn btn-danger" type="button"
+                            (click)="showConfirmationMessage(list._id)">
+                            <i class="fa fa-trash"></i></button>
+
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+

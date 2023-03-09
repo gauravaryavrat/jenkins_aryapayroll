@@ -1,0 +1,2104 @@
+<div class="card card-body">
+    <ul class="nav nav-tabs" id="myTab" role="tablist" #target>
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#basicDetails" role="tab" aria-controls="basic details">Basic
+        Details</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#bio" role="tab" (click)="bioListData()" aria-controls="bio">Employee Bio</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link addesstab" data-toggle="tab" (click)="showAddress()" href="#address" role="tab" aria-controls="address">Address</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" (click)="showEducationDetails()" href="#educationDetails" role="tab" aria-controls="educationDetails">Education Details</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" (click)="uploadedDocumentList()" href="#uploadDocument" role="tab" aria-controls="uploadDocument">Upload
+        Document</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" (click)="bankDetails()" href="#bankDetails" role="tab" aria-controls="bankDetails">Bank Details</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#workExperience" (click)="showWorkList()" role="tab" aria-controls="workExperience">Work Experience</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#skillCat" role="tab" aria-controls="skillCat">Skill Category</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#addFamily" role="tab" (click)="getFamilyDetails()" aria-controls="addFamily">Family Details</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#profilePayroll" role="tab" (click)="payrollListData()" aria-controls="profilePayroll">Payroll Settings</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#languageSkill" role="tab" (click)="listSkillLanguage()" aria-controls="languageSkill">Language Skills</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#leaveSetting" role="tab" (click)="employeeLeaveDataList()" aria-controls="leaveSetting">Leave Settings</a>
+        </li>
+        <li class="nav-item" *ngIf="snapShotParam">
+            <a class="nav-link" data-toggle="tab" href="#identityproofs" role="tab" (click)="getEmployeeIdProofsList()" aria-controls="identityproofs">Identity Proofs</a>
+        </li>
+    </ul>
+    <br />
+    <br />
+    <div class="tab-content">
+        <!-- basicDetails are start here -->
+        <div class="tab-pane active" id="basicDetails" role="tabpanel">
+            <div class="col-sm-offset-2">
+                <p class="alert alert-danger" *ngIf="errorMsg">
+                    <strong>{{ errMsg }}</strong>
+                </p>
+            </div>
+            <div class="col-sm-offset-2">
+                <p class="alert alert-success" *ngIf="successMessage">
+                    <strong>{{ successMsg }}</strong>
+                </p>
+            </div>
+            <form class="form-horizontal" role="form" [formGroup]="employeeBasicForm" (ngSubmit)="employeeForm()" novalidate>
+                <h4>Basic Details</h4>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>Company Name :&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                            <select class="dropdown dropdown-toggle form-control" Name="Company" formControlName="companyId" (change)="onSelect($event.target.value)">
+                    <option class="dropdown-item" value="" selected disabled>-----Select a Company-----</option>
+                    <option class="dropdown-item" *ngFor="let company of companyListData" selected="{{ company.name }}"
+                        value="{{ company._id }}">
+                        {{ company.name }}
+                    </option>
+                  </select>
+                            <div *ngFor="let validation of validationMessage.companyId">
+                                <div style="color: red;margin-left: 14px;" *ngIf="
+                        employeeBasicForm
+                        .get('companyId')
+                        .hasError(validation.type) &&
+                        (employeeBasicForm.get('companyId').dirty ||
+                        employeeBasicForm.get('companyId').touched)
+                        " style="color: red;margin-left: 14px;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>Branch Name :&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                            <select class="dropdown dropdown-toggle form-control" Name="branchId" formControlName="branchId" (change)="onClick($event.target.value)">
+                    <option class="dropdown-item" value='' disabled>-----
+                        Select A Branch-----
+                    </option>
+                    <option class="dropdown-item" *ngFor="let branch of branchList" value="{{ branch._id }}">
+                        {{ branch.name }}
+                    </option>
+                  </select>
+                            <div *ngFor="let validation of validationMessage.branchId">
+                                <div style="color: red;margin-left: 14px;" *ngIf="
+                        employeeBasicForm
+                        .get('branchId')
+                        .hasError(validation.type) &&
+                        (employeeBasicForm.get('branchId').dirty ||
+                        employeeBasicForm.get('branchId').touched)
+                        " style="color: red;margin-left: 14px;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>Department Name :&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                            <select class="dropdown dropdown-toggle form-control" Name="departmentId" formControlName="departmentId">
+                      <option class="dropdown-item" value='' disabled>-----
+                          Select A Department-----
+                      </option>
+                    <option class="dropdown-item" *ngFor="let department of departmentList" value="{{ department._id }}">
+                        {{ department.title }}
+                    </option>
+                  </select>
+                            <div *ngFor="let validation of validationMessage.departmentId">
+                                <div style="color: red;margin-left: 14px;" *ngIf="
+                        employeeBasicForm
+                        .get('departmentId')
+                        .hasError(validation.type) &&
+                        (employeeBasicForm.get('departmentId').dirty ||
+                        employeeBasicForm.get('departmentId').touched)
+                        " style="color: red;margin-left: 14px;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>JobProfile Name :&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                            <select class="dropdown dropdown-toggle form-control" Name="jobProfileId" formControlName="jobProfileId">
+                      <option class="dropdown-item" value='' disabled>-----
+                          Select A JobProfile-----
+                      </option>
+                    <option class="dropdown-item" *ngFor="let jobProfile of jobProfileList" value="{{ jobProfile._id }}">
+                        {{ jobProfile.positionName }} - {{jobProfile.payBasis}}
+                    </option>
+                  </select>
+                            <div *ngFor="let validation of validationMessage.jobProfileId">
+                                <div style="color: red;margin-left: 14px;" *ngIf="
+                        employeeBasicForm
+                        .get('jobProfileId')
+                        .hasError(validation.type) &&
+                        (employeeBasicForm.get('jobProfileId').dirty ||
+                        employeeBasicForm.get('jobProfileId').touched)
+                        " style="color: red;margin-left: 14px;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>Employee Name :&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" id="inputName" placeholder="Enter Employee Name" formControlName="name" />
+                                <div *ngFor="let validation of validationMessage.name">
+                                    <div style="color: red;margin-left: 14px;" *ngIf="
+                          employeeBasicForm.get('name').hasError(validation.type) &&
+                          (employeeBasicForm.get('name').dirty ||
+                          employeeBasicForm.get('name').touched)
+                          " style="color: red;margin-left: 14px;">
+                                        {{ validation.message }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>DOB :&nbsp;<span style="color: darkred">*</span></b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="date" placeholder="Enter Employee DOB" formControlName="dob" />
+                                <div *ngFor="let validation of validationMessage.dob">
+                                    <div style="color: red;margin-left: 14px;" *ngIf="
+                          employeeBasicForm.get('dob').hasError(validation.type) &&
+                          (employeeBasicForm.get('dob').dirty ||
+                          employeeBasicForm.get('dob').touched)
+                          " style="color: red;margin-left: 14px;">
+                                        {{ validation.message }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4>Contact Details</h4>
+                <div class="form-group" [formGroup]="employeeBasicForm.get('contactDetails.personal')">
+                    <h6>Personal Details :-</h6>
+                    <label class="col-sm-6 control-label"><b>Phone No. :&nbsp;<span style="color: darkred">*</span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Phone No." formControlName="phone" />
+                        <div *ngFor="let validation of validationMessage.phone">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                  employeeBasicForm
+                  .get('contactDetails.personal.phone')
+                  .hasError(validation.type) &&
+                  (employeeBasicForm.get('contactDetails.personal.phone')
+                  .dirty ||
+                  employeeBasicForm.get('contactDetails.personal.phone')
+                  .touched)
+                  " style="color: red;margin-left: 14px;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-6 control-label"><b>Landline No. :&nbsp;<span style="color: darkred"></span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Landline No." formControlName="landLineNum" />
+                        <div *ngFor="let validation of validationMessage.landLineNum">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                  employeeBasicForm
+                  .get('contactDetails.personal.landLineNum')
+                  .hasError(validation.type) &&
+                  (employeeBasicForm.get('contactDetails.personal.landLineNum')
+                  .dirty ||
+                  employeeBasicForm.get('contactDetails.personal.landLineNum')
+                  .touched)
+                  " style="color: red;margin-left: 14px;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-6 control-label"><b>Email :&nbsp;<span style="color: darkred">*</span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Email Id" formControlName="email" />
+                        <div *ngFor="let validation of validationMessage.email">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                  employeeBasicForm
+                  .get('contactDetails.personal.email')
+                  .hasError(validation.type) &&
+                  (employeeBasicForm.get('contactDetails.personal.email')
+                  .dirty ||
+                  employeeBasicForm.get('contactDetails.personal.email')
+                  .touched)
+                  " style="color: red;margin-left: 14px;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                </div>
+
+                <input type="checkbox" name="vehicle2" (change)="sameAsPersonalDetails(actionBox)"> Same as Personal Details<br><br>
+
+                <h6>Official Details :-</h6>
+                <div class="form-group" [formGroup]="employeeBasicForm.get('contactDetails.official')">
+                    <label class="col-sm-6 control-label"><b>Phone No. :&nbsp;<span style="color: darkred"></span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Phone No." formControlName="phone" />
+                        <div *ngFor="let validation of validationMessage.phone">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                    employeeBasicForm
+                    .get('contactDetails.official.phone')
+                    .hasError(validation.type) &&
+                    (employeeBasicForm.get('contactDetails.official.phone')
+                    .dirty ||
+                    employeeBasicForm.get('contactDetails.official.phone')
+                    .touched)
+                    " style="color: red;margin-left: 14px;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-6 control-label"><b>Landline No. :&nbsp;<span style="color: darkred"></span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Landline No." formControlName="landLineNum" />
+                        <div *ngFor="let validation of validationMessage.landLineNum">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                    employeeBasicForm
+                    .get('contactDetails.official.landLineNum')
+                    .hasError(validation.type) &&
+                    (employeeBasicForm.get('contactDetails.official.landLineNum')
+                    .dirty ||
+                    employeeBasicForm.get('contactDetails.official.landLineNum')
+                    .touched)
+                    " style="color: red;margin-left: 14px;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                    <label class="col-sm-6 control-label"><b>Email :&nbsp;<span style="color: darkred">*</span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Email Id" formControlName="email" />
+                        <div *ngFor="let validation of validationMessage.email">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                    employeeBasicForm
+                    .get('contactDetails.official.email')
+                    .hasError(validation.type) &&
+                    (employeeBasicForm.get('contactDetails.official.email')
+                    .dirty ||
+                    employeeBasicForm.get('contactDetails.official.email')
+                    .touched)
+                    " style="color: red;margin-left: 14px;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="height:30px">
+                    <div class="form-group col-sm-offset-2 col-md-5">
+                        <input type="checkbox" formControlName="officialEmailAsLoginEmail">&nbsp; Do You Want Official Email as Login Email
+                    </div>
+                    <!-- <div class="form-group col-sm-offset-2 col-md-5"> -->
+                    <div *ngIf="basicDetail === 'Submit'">
+                        <input type="checkbox" (click)="oncheck()" style="margin-top:5px">&nbsp; Assign TL/Manager
+                    </div>
+                    <div class="form-group col-sm-offset-2 col-md-2" *ngIf="checkbox">
+                        <select class="dropdown dropdown-toggle form-control" Name="Company" formControlName="tlId" (change)="onSelect($event.target.value)">
+            <option class="dropdown-item" ng-selected="true" value="" selected disabled>Select TL/Manager</option>
+            <option class="dropdown-item" *ngFor="let tl of companyTlList" selected="{{ tl.name }}"
+                value="{{ tl._id }}">
+                {{ tl.name }}
+            </option>
+          </select>
+                    </div>
+                    <div *ngFor="let validation of validationMessage.companyId">
+                        <div style="color: red;margin-left: 14px;" *ngIf="
+                employeeBasicForm
+                .get('companyId')
+                .hasError(validation.type) &&
+                (employeeBasicForm.get('companyId').dirty ||
+                employeeBasicForm.get('companyId').touched)
+                " style="color: red;margin-left: 14px;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" [disabled]="employeeBasicForm.invalid" (click)="scroll(target)">
+              {{ basicDetail }}
+              </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- basicDetails end here -->
+
+        <!-- Bio details start  -->
+        <div class="tab-pane " id="bio" role="tabpanel" #target>
+            <!-- list bio details -->
+            <div class="card" *ngIf="bioList">
+
+                <div class="panel-body">
+                    <ul class="list-group">
+                        <li class="list-group-item" *ngFor="let list of biodata">
+                            <div class="card" style="background-color:ghostwhite">
+                                <h5 style="text-align: center;">Employee Bio Details </h5>
+                                <table class="table" style="margin: auto">
+                                    <tr>
+                                        <th>Height:</th>
+                                        <td>{{ list.height }}</td>
+                                        <th>Weight:</th>
+                                        <td>{{ list.weight}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Color:</th>
+                                        <td>{{ list.color}}</td>
+                                        <th>Mole Identification:</th>
+                                        <td>{{ list.moleIdentification}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Multiple Handicapped:</th>
+                                        <td>{{ list.multipleHandicapped}}</td>
+                                        <th>Multiple Handicapped Percent:</th>
+                                        <td>{{ list.multipleHandicappedPercent}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Eye Power:</th>
+                                        <td>{{ list.eyePower}}</td>
+                                        <th>Blood Group:</th>
+                                        <td>{{ list.bloodGroup}}</td>
+
+                                    </tr>
+                                </table>
+                                <h5 style="text-align: center;">Physical Description Details</h5>
+                                <table class="table" style="margin: auto">
+                                    <tr>
+                                        <th>Hospital Name:</th>
+                                        <td>{{ list.illness.mental.hospitalName }}</td>
+                                        <th>Mental Illness Name:</th>
+                                        <td>{{ list.illness.mental.mentalIllnessName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Treatment Duration:</th>
+                                        <td>{{ list.illness.mental.treatmentDuration}}</td>
+                                        <th>Treatment Name:</th>
+                                        <td>{{ list.illness.mental.treatmentName}}</td>
+                                    </tr>
+                                </table>
+                                <h5 style="text-align: center;">Mental Description Details</h5>
+                                <table class="table" style="margin: auto">
+                                    <tr>
+                                        <th>Hospital Name:</th>
+                                        <td>{{ list.illness.physical.hospitalName }}</td>
+                                        <th>Account Number:</th>
+                                        <td>{{ list.illness.physical.illnessStatus}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Physical Illness Name:</th>
+                                        <td>{{ list.illness.physical.physicalIllnessName}}</td>
+                                        <th>Treatment Duration:</th>
+                                        <td>{{ list.illness.physical.treatmentDuration}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Treatment Name:</th>
+                                        <td>{{ list.illness.physical.treatmentName}}</td>
+                                    </tr>
+                                </table>
+                                <div>
+                                    <button style="float: right" (click)="bioEdit()" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>&nbsp;Update</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- list bio details -->
+            <div class="col-sm-offset-2">
+                <p class="alert alert-danger" *ngIf="errorMsg">
+                    <strong>{{ errMsg }}</strong>
+                </p>
+            </div>
+            <div class="col-sm-offset-2">
+                <p class="alert alert-success" *ngIf="successMessage">
+                    <strong>{{ successMsg }}</strong>
+                </p>
+            </div>
+            <form class="form-horizontal" role="form" [formGroup]="employeeBioForm" (ngSubmit)="employeeBioFormData()" novalidate *ngIf="bioForm">
+                <h3>Employee Bio</h3>
+                <br />
+                <div [formGroup]="employeeBioForm.get('bio')">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label"><b>HEIGHT:&nbsp;(In Feet and Inches)&nbsp;(for eg: 3'11")</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Employee Height" formControlName="height" />
+                                    <div *ngFor="let validation of bioValidationMessage.height">
+                                        <div style="color: red;margin-left: 14px;" *ngIf="
+                          employeeBioForm.get('bio.height').hasError(validation.type) &&
+                            (employeeBioForm.get('bio.height').dirty ||
+                            employeeBioForm.get('bio.height').touched)
+                            " style="color: red;margin-left: 14px;">
+                                            {{ validation.message }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>WEIGHT:&nbsp;(In Kgs only)&nbsp;(for eg: 30kg)</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Employee Weight" formControlName="weight" />
+                                    <div *ngFor="let validation of bioValidationMessage.weight">
+                                        <div style="color: red;margin-left: 14px;" *ngIf="
+                          employeeBioForm.get('bio.weight').hasError(validation.type) &&
+                            (employeeBioForm.get('bio.weight').dirty ||
+                            employeeBioForm.get('bio.weight').touched)
+                            " style="color: red;margin-left: 14px;">
+                                            {{ validation.message }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="form-group col-md-4">
+                <div class="form-group">
+                  <label class="col-sm-6 control-label"><b>SKIN COMPLEXION:&nbsp;</b></label>
+                  <div class="col-sm-offset-2">
+                      <input class="form-control" type="text" placeholder="Enter Employee Skin Complexion"
+                        formControlName="color" />
+                  </div>
+                </div>
+            </div> -->
+                        <div class="form-group col-md-4">
+
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>SKIN COMPLEXION:&nbsp;</b></label>
+                                <div class="col-sm-offset-2">
+                                    <select class="dropdown dropdown-toggle form-control" formControlName="color">
+                        <option class="dropdown-item" value='' disabled>-----
+                            Select Skin Complexion-----
+                        </option>
+                      <optgroup label="Pale White">
+                          <option class="dropdown-item" value="Light">Light</option>
+                      </optgroup>
+                      <optgroup label="Fair">
+                          <option class="dropdown-item" value="White">White</option>
+                      </optgroup>
+                      <optgroup label="White to Light Brown">
+                          <option class="dropdown-item" value="Medium">Medium</option>
+                      </optgroup>
+                      <optgroup label="Moderate Brown">
+                          <option class="dropdown-item" value="Olive">Olive</option>
+                      </optgroup>
+                      <optgroup label="Dark Brown">
+                          <option class="dropdown-item" value="Brown">Brown</option>
+                      </optgroup>
+                      <optgroup label="Brown to Black">
+                          <option class="dropdown-item" value="Very Dark">Very Dark</option>
+                      </optgroup>
+                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>MOLE IDENTIFICATION OR OTHER MARKS:&nbsp;</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Employee Mole Identification" formControlName="moleIdentification" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>BLOOD GROUP:&nbsp;(for eg: AB-)</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Employee Blood Group" formControlName="bloodGroup" />
+                                    <div *ngFor="let validation of bioValidationMessage.bloodGroup">
+                                        <div style="color: red;margin-left: 14px;" *ngIf="
+                            employeeBioForm.get('bio.bloodGroup').hasError(validation.type) &&
+                              (employeeBioForm.get('bio.bloodGroup').dirty ||
+                              employeeBioForm.get('bio.bloodGroup').touched)
+                              " style="color: red;margin-left: 14px;">
+                                            {{ validation.message }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>EYE POWER:&nbsp;</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Employee Eye Power" formControlName="eyePower" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label"><b>HANDICAPPED:&nbsp;</b></label>
+                                <select class="dropdown dropdown-toggle form-control" (change)="check($event.target.value)" formControlName="handicapped">
+                      <option class="dropdown-item" value='' disabled>-----
+                          Select Option-----
+                      </option>
+                      <option class="dropdown-item" value="false">No</option>
+                      <option class="dropdown-item" value="true">Yes</option>
+                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4" *ngIf="show">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label"><b>HANDICAPPED PERCENTAGE:&nbsp;</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Percenatge" formControlName="handicappedPercent" />
+                                    <div *ngFor="let validation of bioValidationMessage.handicappedPercent">
+                                        <div style="color: red;margin-left: 14px;" *ngIf="
+                          employeeBioForm.get('bio.handicappedPercent').hasError(validation.type) &&
+                            (employeeBioForm.get('bio.handicappedPercent').dirty ||
+                            employeeBioForm.get('bio.handicappedPercent').touched)
+                            " style="color: red;margin-left: 14px;">
+                                            {{ validation.message }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label"><b>MULTIPLE HANDICAPPED:&nbsp;</b></label>
+                                <select class="dropdown dropdown-toggle form-control" formControlName="multipleHandicapped" (change)="checked($event.target.value)">
+                      <option class="dropdown-item" value='' disabled>-----
+                          Select Option-----
+                      </option>
+                      <option class="dropdown-item" value="false">No</option>
+                      <option class="dropdown-item" value="true">Yes</option>
+                  </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6" *ngIf="shown">
+                            <div class="form-group">
+                                <label class="col-sm-8 control-label"><b>MULTIPLE HANDICAPPED PERCENTAGE:&nbsp;</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" placeholder="Enter Percenatge" formControlName="multipleHandicappedPercent" />
+                                    <div *ngFor="let validation of bioValidationMessage.multipleHandicappedPercent">
+                                        <div style="color: red;margin-left: 14px;" *ngIf="
+                          employeeBioForm.get('bio.multipleHandicappedPercent').hasError(validation.type) &&
+                            (employeeBioForm.get('bio.multipleHandicappedPercent').dirty ||
+                            employeeBioForm.get('bio.multipleHandicappedPercent').touched)
+                            " style="color: red;margin-left: 14px;">
+                                            {{ validation.message }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h6>Physical Description</h6>
+                <div class="form-row" [formGroup]="employeeBioForm.get('bio.illness.physical')">
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-10 control-label"><b>PHYSICHAL ILLNESS IF ANY PROLONG MORE THAN A WEEK :&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Physical Illness" formControlName="physicalIllnessName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>NAME OF THE TREATMENT TAKEN:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Treatment" formControlName="treatmentName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>HOSPITAL NAME:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Hospital Name" formControlName="hospitalName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>DURATION OF TREATMENT:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Treatment Duration" formControlName="treatmentDuration" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>CURRENT STATUS OF ILLNESS:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Illness Status" formControlName="illnessStatus" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h6>Mental Description</h6>
+                <div class="form-row" [formGroup]="employeeBioForm.get('bio.illness.mental')">
+                    <div class="form-group col-md-8">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>MENTAL ILLNESS IF ANY PROLONG MORE THAN A WEEK :&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Mental Illness" formControlName="mentalIllnessName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>NAME OF THE TREATMENT TAKEN:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Treatment Name" formControlName="treatmentName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>HOSPITAL NAME:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Hospital name" formControlName="hospitalName" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>DURATION OF TREATMENT:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Treatment Duration" formControlName="treatmentDuration" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <div class="form-group">
+                            <label class="col-sm-8 control-label"><b>CURRENT STATUS OF ILLNESS:&nbsp;</b></label>
+                            <div class="col-sm-offset-2">
+                                <input class="form-control" type="text" placeholder="Enter Illness Status" formControlName="illnessStatus" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-success" [disabled]='employeeBioForm.invalid' (click)="scroll(target)">
+            {{ employeeBioButton }}
+            </button>
+                        <button type="button" class="btn btn-danger" (click)="bioCancel()">Cancel</button>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Bio details end  -->
+
+        <!-- address section ui start -->
+        <div class="tab-pane" id="address" role="tabpanel">
+            <div class="card-body">
+                <input type="hidden" id="employeeId" #employeeId value="{{ hidden }}" />
+                <!-- for show address list  -->
+                <div class="card" style="background-color:whitesmoke;" *ngIf="addressMsg">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <div class="card-body">
+                                <table class="table" style="text-align: center;">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th>Door Number </th>
+                                            <th>Zip code </th>
+                                            <th>Street Name 1 </th>
+                                            <th>Address Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor=" let list of addressList">
+                                        <tr>
+                                            <td> {{list.doorNum}} </td>
+                                            <td> {{list.zipcode}} </td>
+                                            <td> {{list.streetName1}}</td>
+                                            <td> {{list.addressType}}</td>
+                                            <td>
+                                                <button (click)="addressEdit(list._id)" class="btn btn-primary" style="color: white;"><i class="fa fa-pencil-square-o"></i>
+                                  </button>&nbsp;
+                                                <button class="btn btn-danger" type="button" (click)="removeAddess(list._id)"><i class="fa fa-trash"></i>
+                                  </button >
+                              </td>
+                            </tr>
+                        </tbody>
+                      </table>
+                  </div>
+                </ul>
+            </div>
+          </div>
+          <!-- show address list end -->
+          <div *ngIf="addAddess">
+              <div class="col-sm-offset-2">
+                  <p class="alert alert-danger" *ngIf="errorMsg">
+                    <strong>{{ errMsg }}</strong>
+                  </p>
+              </div>
+              <div class="col-sm-offset-2">
+                  <p class="alert alert-success" *ngIf="successMessage">
+                    <strong>{{ successMsg }}</strong>
+                  </p>
+              </div>
+            <form class="form-horizontal" role="form" [formGroup]="employeeAddressForm" (ngSubmit)="addressForm()"
+            novalidate>
+            <h3>{{titleName}}</h3>
+            <div class="form-group" [formGroup]="employeeAddressForm.get('address')">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                      <label class="col-sm-6 control-label"><b>DOOR NO :&nbsp;<span style="color: darkred"></span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" placeholder="Enter Door No." value=""
+                            formControlName="doorNum" />
+                      </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label class="col-sm-6 control-label"><b>LANDMARK :&nbsp;<span
+                        style="color: darkred"></span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" value="" placeholder="Enter Landmark" formControlName="landmark" />
+                      </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label class="col-sm-6 control-label"><b>ADDRESS TYPE :</b></label>
+                      <select class="dropdown dropdown-toggle form-control" formControlName="addressType">
+                        <option class="dropdown-item" value='null' disabled>-----
+                            Choose Address Type-----
+                        </option>
+                        <option [ngValue]="addressType" value="" *ngFor="let addressType of address">
+                        {{ addressType }}
+                        </option>
+                      </select>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                      <label class="col-sm-6 control-label"><b>STREET NAME 1 :&nbsp;<span
+                        style="color: darkred"></span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" value="" placeholder="Enter Street Name 1"
+                            formControlName="streetName1" />
+                      </div>
+                  </div>
+                  <div class="form-group col-md-6">
+                      <label class="col-sm-6 control-label"><b>STREET NAME 2 :&nbsp;<span
+                        style="color: darkred"></span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" value="" placeholder="Enter Street Name 2"
+                            formControlName="streetName2" />
+                      </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                      <label class="col-sm-6 control-label"><b>ZIPCODE :&nbsp;<span style="color: darkred">*</span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" value="" placeholder="Enter Zipcode" formControlName="zipcode" />
+
+                        <div *ngFor="let validation of validationMessageZip.zipcode">
+                            <div style="color: red;margin-left: 14px;" *ngIf="
+                              employeeAddressForm
+                              .get('address.zipcode')
+                              .hasError(validation.type) &&
+                              (employeeAddressForm.get('address.zipcode')
+                              .dirty ||
+                              employeeAddressForm.get('address.zipcode')
+                              .touched)
+                              " style="color: red;margin-left: 14px;">
+                              {{ validation.message }}
+                            </div>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label class="col-sm-6 control-label"><b>CITY :&nbsp;<span style="color: darkred"></span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" value="" placeholder="Enter City" formControlName="district" />
+                      </div>
+                  </div>
+                  <div class="form-group col-md-4">
+                      <label class="col-sm-6 control-label"><b>STATE :&nbsp;<span style="color: darkred"></span></b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" type="text" value="" placeholder="Enter State" formControlName="state" />
+                      </div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success" [disabled]="employeeAddressForm.invalid" >
+                {{buttonName}}
+                </button>
+                                                <button type="submit" (click)="cancleAddForm()" class="btn btn-danger">
+                  Cancel
+                </button>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+                <button (click)="addNewAddress()" *ngIf="addessBtn" class="btn btn-info" style="color: white; float: right;">Add Address</button>
+            </div>
+            <!-- address seccion ui end -->
+
+            <!-- education ui stat -->
+            <div class="tab-pane" id="educationDetails" role="tabpanel">
+                <!-- education list start -->
+                <div class="card" style="background-color:whitesmoke;" *ngIf="listMesg">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <div class="card-body">
+                                <table class="table" style="text-align: center;">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th>Course Name </th>
+                                            <th>Institute Name </th>
+                                            <th>Pass Out Year </th>
+                                            <th>Scored Percentage </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor=" let list of educationData">
+                                        <tr>
+                                            <td> {{list?.courseName}} </td>
+                                            <td> {{list?.instituteName}} </td>
+                                            <td> {{list?.passOutYear}}</td>
+                                            <td> {{list?.scoredPercent}}</td>
+                                            <td>
+                                                <!-- <a (click)="educationEdit(list._id)" style="float: right;color: white;" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp; -->
+                                                <button (click)="educationEdit(list._id)" style="color: white;" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>
+                              </button>&nbsp;
+                                                <button class="btn btn-danger" type="button" (click)="removeEducation(list._id)"><i class="fa fa-trash"></i>
+                              </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <!-- education list end -->
+                <div *ngIf="EducationForm">
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-danger" *ngIf="errorMsg">
+                            <strong>{{ errMsg }}</strong>
+                        </p>
+                    </div>
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-success" *ngIf="successMessage">
+                            <strong>{{ successMsg }}</strong>
+                        </p>
+                    </div>
+                    <form class="form-horizontal" role="form" [formGroup]="empEducationForm" (ngSubmit)="educationForm()" novalidate>
+                        <h3>{{education}}</h3>
+                        <div class="form-group" [formGroup]="empEducationForm.get('educationalDetails')">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-6 control-label"><b>COURSE NAME:&nbsp;<span
+                      style="color: darkred"></span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" placeholder="Enter Course name" formControlName="courseName" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-6 control-label"><b>INSTITUTE NAME:&nbsp;<span
+                      style="color: darkred"></span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" placeholder="Enter Name of the INSTITUTE" formControlName="instituteName" />
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-6 control-label"><b>PASS OUT YEAR:&nbsp;<span
+                      style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" placeholder="Enter Year" formControlName="passOutYear" />
+                                        <div *ngFor="let validation of validationMessageEducation.passOutYear">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                          empEducationForm
+                          .get('educationalDetails.passOutYear')
+                          .hasError(validation.type) &&
+                          (empEducationForm.get('educationalDetails.passOutYear')
+                          .dirty ||
+                          empEducationForm.get('educationalDetails.passOutYear')
+                          .touched)
+                          " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-6 control-label"><b>STATUS:&nbsp;<span
+                      style="color: darkred"></span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <select class="dropdown dropdown-toggle form-control" formControlName="status">
+                            <option class="dropdown-item" value='null' disabled>-----
+                                Select Course Status-----
+                            </option>
+                            <option *ngFor="let courseStatus of educationalStatus" [ngValue]="courseStatus" >
+                            {{ courseStatus }}
+                            </option>
+                          </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-6 control-label"><b>DESCRIPTION OF COURSE:&nbsp;<span
+                      style="color: darkred"></span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" placeholder="Enter Description" formControlName="description" />
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group col-md-4">
+                                    <label class="col-sm-6 control-label"><b>SCORED PERCENTAGE:&nbsp;<span style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" placeholder="Enter Percenatge" formControlName="scoredPercent" />
+
+                                        <div *ngFor="let validation of validationMessageEducation.scoredPercent">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                            empEducationForm
+                            .get('educationalDetails.scoredPercent')
+                            .hasError(validation.type) &&
+                            (empEducationForm.get('educationalDetails.scoredPercent')
+                            .dirty ||
+                            empEducationForm.get('educationalDetails.scoredPercent')
+                            .touched)
+                            " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="submit" class="btn btn-success" [disabled]='empEducationForm.invalid'>
+                      {{educationBtnadd}}
+                      </button>
+                                        <button type="submit" class="btn btn-danger" (click)="cancleEducation()" style="margin-top:-45%;margin-left:72%;">
+                        Cancel
+                      </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <a (click)="addNewEducation()" *ngIf="educationBtn" class="btn btn-info" style="color: white; float: right;">Add Education</a>
+            </div>
+            <!-- education ui end -->
+
+            <!-- upload Document html code start here  -->
+            <div class="tab-pane" id="uploadDocument" role="tabpanel">
+                <div class="card-body">
+                    <div class="card" style="background-color:whitesmoke;" *ngIf="uploadedDocumentDetails.length > 0">
+                        <h4 style="text-align: center;"><strong>Upload Employee Enlisted Documents</strong></h4>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div class="card-body">
+                                    <table class="table" style="text-align: center;">
+                                        <thead class=" text-primary">
+                                            <tr>
+                                                <th>Document Name </th>
+                                                <th>Required </th>
+                                                <th>Upload Doc Image</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let uploadedDocuments of uploadedDocumentDetails; index as i">
+                                            <tr>
+                                                <td> {{uploadedDocuments.title}} </td>
+                                                <td *ngIf="uploadedDocuments.isRequired"><i class="fa fa-check" style="color: green; font-size: 25px;"></i></td>
+                                                <td *ngIf="!uploadedDocuments.isRequired"><i class="fa fa-times" style="color: red; font-size: 25px;"></i></td>
+                                                <td> <input type="file" class="form-control-file border" id="documnetDocImage{{i+1}}" (change)="onFileSelect($event)" accept="image/*"> </td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-round" (click)="uploadDocs(uploadedDocuments._id,i+1,'Add')">
+                                <i class="fas fa-camera-retro"></i> Submit
+                              </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card" style="background-color:whitesmoke;" *ngIf="employeeDocumentsDetails.length > 0">
+                        <h4 style="text-align: center;"><strong>Uploaded Documents Enlisted</strong></h4>
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div class="card-body">
+                                    <table class="table" style="text-align: center;">
+                                        <thead class=" text-primary">
+                                            <tr>
+                                                <th>Document Name </th>
+                                                <th>Required </th>
+                                                <th>File Size</th>
+                                                <th>Uploaded At</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor="let existingDocuments of employeeDocumentsDetails; index as i">
+                                            <tr>
+                                                <td> {{existingDocuments.documentTypeName}} </td>
+                                                <td *ngIf="existingDocuments.isRequired"><i class="fa fa-check" style="color: green; font-size: 25px;"></i></td>
+                                                <td *ngIf="!existingDocuments.isRequired"><i class="fa fa-times" style="color: red; font-size: 25px;"></i></td>
+                                                <td> {{existingDocuments.fileSize}} </td>
+                                                <td>{{ existingDocuments.metaData.createdAt | date:'fullDate' }} {{ existingDocuments.metaData.createdAt | date:'shortTime' }}</td>
+                                                <td>
+                                                    <button title="Update" class="btn btn-primary" style="color: white;" data-toggle="modal" data-target="#updateDocument" data-backdrop="static" (click)="updateDocuments(existingDocuments.documentTypeId)"><i class="fa fa-pencil-square-o"></i>
+                                  </button>&nbsp;
+                                                    <button title="Info" class="btn btn-info" style="color: white;" (click)="openImage(existingDocuments.file)"><i class="fas fa-file-alt"></i>
+                                  </button>&nbsp;
+                                                    <button title="Delete" class="btn btn-danger" (click)="deleteDocument(existingDocuments.documentTypeId)"><i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- upload document html code end here -->
+
+            <!-- upload bank details html ui start -->
+            <div class="tab-pane" id="bankDetails" role="tabpanel">
+                <!-- list bank details -->
+                <div class="card" *ngIf="bankList">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let list of bankListData">
+                                <div class="card" style="background-color:ghostwhite">
+                                    <h5 style="text-align: center;">Offical Bank Details </h5>
+                                    <table class="table" style="margin: auto">
+                                        <tr>
+                                            <th>Bank Name:</th>
+                                            <td>{{ list.official.name }}</td>
+                                            <th>Account Number:</th>
+                                            <td>{{ list.official.accountNum}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Account Place:</th>
+                                            <td>{{ list.official.accountPlace}}</td>
+                                            <th>Account Type:</th>
+                                            <td>{{ list.official.accountType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Remarks:</th>
+                                            <td>{{ list.official.remarks}}</td>
+                                        </tr>
+                                    </table>
+                                    <h5 style="text-align: center;">Personal Bank Details</h5>
+                                    <table class="table" style="margin: auto">
+                                        <tr>
+                                            <th>Bank Name:</th>
+                                            <td>{{ list.personal.name }}</td>
+                                            <th>Account Number:</th>
+                                            <td>{{ list.personal.accountNum}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Account Place:</th>
+                                            <td>{{ list.personal.accountPlace}}</td>
+                                            <th>Account Type:</th>
+                                            <td>{{ list.personal.accountType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Remarks:</th>
+                                            <td>{{ list.personal.remarks}}</td>
+                                        </tr>
+                                    </table>
+                                    <div>
+                                        <button style="float: right" (click)="editBankDetails()" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>&nbsp;Update</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- list banki details -->
+                <div class="col-sm-offset-2">
+                    <p class="alert alert-danger" *ngIf="errorMsg">
+                        <strong>{{ errMsg }}</strong>
+                    </p>
+                </div>
+                <div class="col-sm-offset-2">
+                    <p class="alert alert-success" *ngIf="successMessage">
+                        <strong>{{ successMsg }}</strong>
+                    </p>
+                </div>
+                <form class="form-horizontal" role="form" [formGroup]="bankDetailsForm" (ngSubmit)="bankDetailsAdd()" novalidate *ngIf="bankForm">
+                    <h5 class="text-center"><b>Official Details</b></h5>
+                    <div [formGroup]="bankDetailsForm.get('bankDetails.official')">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="inputName" placeholder="Enter Bank Name" formControlName="name">
+                                        <div *ngFor="let validation of validationMessageBank.name">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                                bankDetailsForm.get('bankDetails.official.name').hasError(validation.type) &&
+                                (bankDetailsForm.get('bankDetails.official.name').dirty ||
+                                bankDetailsForm.get('bankDetails.official.name').touched)
+                                " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Account Number:&nbsp;<span style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="acountnumber" placeholder="Enter Account Number" formControlName="accountNum">
+                                        <div *ngFor="let validation of validationMessageBank.accountNum">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                                bankDetailsForm.get('bankDetails.official.accountNum').hasError(validation.type) &&
+                                (bankDetailsForm.get('bankDetails.official.accountNum').dirty ||
+                                bankDetailsForm.get('bankDetails.official.accountNum').touched)
+                                " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Account Origin:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="acountplace" placeholder="Enter Account Origin" formControlName="accountPlace">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Remarks:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="remark" placeholder="Enter Remarks" formControlName="remarks">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Account Type:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="acountType" placeholder="Enter Account Type" formControlName="accountType">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+
+                    <input type="checkbox" name="vehicle2" (change)="sameAsOfficialDetails(actionBox)" [checked]='actionBox'> Same as Official Details <br><br>
+
+
+
+                    <div [formGroup]="bankDetailsForm.get('bankDetails.personal')">
+                        <h5 class="text-center"><b>Personal Details</b></h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="pinputName" placeholder="Enter Bank Name" formControlName="name">
+                                        <div *ngFor="let validation of validationMessageBank.name">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                              bankDetailsForm.get('bankDetails.personal.name').hasError(validation.type) &&
+                              (bankDetailsForm.get('bankDetails.personal.name').dirty ||
+                              bankDetailsForm.get('bankDetails.personal.name').touched)
+                              " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Account Number:&nbsp;<span style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="pacountnumber" placeholder="Enter Account Number" formControlName="accountNum">
+                                        <div *ngFor="let validation of validationMessageBank.accountNum">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                              bankDetailsForm.get('bankDetails.personal.accountNum').hasError(validation.type) &&
+                              (bankDetailsForm.get('bankDetails.personal.accountNum').dirty ||
+                              bankDetailsForm.get('bankDetails.personal.accountNum').touched)
+                              " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Account Origin:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="pacountplace" placeholder="Enter Account Origin" formControlName="accountPlace">
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Remarks:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="premark" placeholder="Enter Remarks" formControlName="remarks">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Account Type:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="pacountType" placeholder="Enter Account Type" formControlName="accountType">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" [disabled]="bankDetailsForm.invalid" (click)="scroll(target)">{{bannBtn}}</button>
+                        <button type="button" class="btn btn-danger" (click)="bankDetailsCancel()">Cancel</button>
+
+                    </div>
+
+                </form>
+            </div>
+            <!-- upload bank details html ui end-->
+
+            <!-- upload Work Experience ui start-->
+            <div class="tab-pane" id="workExperience" role="tabpanel">
+                <!-- list of experience -->
+                <div class="card" style="background-color:whitesmoke;" *ngIf="listExprience">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <div class="card-body">
+                                <table class="table" style="text-align: center;">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th>Company Name </th>
+                                            <th>Experience Years </th>
+                                            <th>Designation </th>
+                                            <th>Remarks </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor=" let list of exprienceListData">
+                                        <tr>
+                                            <td> {{list?.companyName}} </td>
+                                            <td> {{list?.experienceYears}} </td>
+                                            <td> {{list?.designation}}</td>
+                                            <td> {{list?.remarks}}</td>
+                                            <td>
+                                                <button (click)="expriceneEdit(list._id)" style="color: white;" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> </button>&nbsp;
+                                                <button class="btn btn-danger" type="button" (click)="removeExpeience(list._id)"><i class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <!-- list of experience -->
+                <div *ngIf="workExperience">
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-danger" *ngIf="errorMsg">
+                            <strong>{{ errMsg }}</strong>
+                        </p>
+                    </div>
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-success" *ngIf="successMessage">
+                            <strong>{{ successMsg }}</strong>
+                        </p>
+                    </div>
+                    <form class="form-horizontal" role="form" [formGroup]="workExperienceForm" (ngSubmit)="addWorkExp()" novalidate>
+                        <h3>{{exprienceTitle}}</h3>
+                        <div class="row" [formGroup]="workExperienceForm.get('workExperiences')">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Company Name:&nbsp;<span style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="name" placeholder="Enter Company Name" formControlName="companyName">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Designation:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="designation" placeholder="Enter Designation" formControlName="designation">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Experience Years:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="experience" placeholder="Enter Experience Years" formControlName="experienceYears">
+
+                                        <div *ngFor="let validation of validationMessageExper.experienceYears">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                            workExperienceForm.get('workExperiences.experienceYears').hasError(validation.type) &&
+                              (workExperienceForm.get('workExperiences.experienceYears').dirty ||
+                              workExperienceForm.get('workExperiences.experienceYears').touched)
+                              " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Job Description:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="description" placeholder="Enter Job Description" formControlName="jobDescription">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Reliving Reason:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="relivingre" placeholder="Enter Reliving Reason" formControlName="relivingReason">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Reliving Is:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <select class="dropdown dropdown-toggle form-control" formControlName="relivingIs">
+                      <option [ngValue]="null" disabled>-----Choose Reliving Status-----</option>
+                      <option *ngFor= 'let reliving of relivingIs' [ngValue]="reliving" > {{ reliving }} </option>
+                    </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Remarks:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="remark" placeholder="Enter Remarks" formControlName="remarks">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" [disabled]="workExperienceForm.invalid" (click)="scroll(target)">{{experienceBtn}}</button>
+                        <button class="btn btn-danger" (click)="cancleExperience()">Cancel</button>
+                    </form>
+                </div>
+                <a (click)="addExperience()" *ngIf="addExpbtn" class="btn btn-info" style="color: white; float: right;">Add Experience</a>
+
+            </div>
+            <!-- upload work Experience ui end-->
+
+            <!-- upload skill category  -->
+            <div class="tab-pane" id="skillCat" role="tabpanel">
+                <!-- <tag-input [(ngModel)]='items'></tag-input> -->
+                <!-- <tag-input [ngModel]="itemsAsObjects"></tag-input> -->
+            </div>
+            <!-- upload skill category -->
+
+            <!-- Employee Family add  -->
+            <div class="tab-pane" id="addFamily" role="tabpanel">
+                <input type="hidden" id="familyId" #familyId value="{{ familyIdValue }}">
+                <div class="card" style="background-color:whitesmoke;" id="hide" *ngIf="divShow">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <div class="card-body">
+                                <table class="table" style="text-align: center;">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th>Relation </th>
+                                            <th>Name</th>
+                                            <th>Education</th>
+                                            <th>Occupation</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor=" let list of familyDetailsList">
+                                        <tr>
+                                            <td> {{list.relation}} </td>
+                                            <td> {{list.name}} </td>
+                                            <td> {{list.education}}</td>
+                                            <td> {{list.occupation}}</td>
+                                            <td>
+                                                <button class="btn btn-primary" (click)="updateValidation(list._id)"><i
+                                  class="fa fa-pencil-square-o"></i>
+                              </button>&nbsp;
+                                                <button type="button" class="btn btn-danger" (click)="deleteFamilyDetails(list._id)"><i
+                                  class="fa fa-trash"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <div *ngIf="formShow">
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-danger" *ngIf="errorMsg">
+                            <strong>{{ errMsg }}</strong>
+                        </p>
+                    </div>
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-success" *ngIf="successMessage">
+                            <strong>{{ successMsg }}</strong>
+                        </p>
+                    </div>
+                    <h3 style="text-align: center">{{ title }} Family Details</h3>
+                    <form class="form-horizontal" role="form" [formGroup]="addRelationForm" (ngSubmit)="addFamilyDetails()" novalidate>
+                        <div [formGroup]="addRelationForm.get('family')">
+                            <div [formGroup]="addRelationForm.get('family.members')">
+                                <label class="col-sm-6 control-label"><b>Select Relation:&nbsp;<span
+                  style="color: darkred">*</span></b></label>
+                                <select class="dropdown dropdown-toggle form-control" formControlName="relation">
+                    <option class="dropdown-item" value='null' disabled>-----Choose Relation Type-----</option>
+                  <option class="dropdown-item" *ngFor="let relationMember of relation" value="{{relationMember}}">
+                      {{ relationMember}}
+                  </option>
+                </select>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Name:</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" id="name" placeholder="Enter Name" formControlName="name">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Age:</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" id="age" placeholder="Enter Age" formControlName="age">
+                                                <div *ngFor="let validation of validationMessageFamily.age">
+                                                    <div style="color: red;margin-left: 14px;" *ngIf="
+                                  addRelationForm.get('family.members.age').hasError(validation.type) &&
+                                    (addRelationForm.get('family.members.age').dirty ||
+                                    addRelationForm.get('family.members.age').touched)
+                                    " style="color: red;margin-left: 14px;">
+                                                        {{ validation.message }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Occupation:</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" id="occupation" placeholder="Enter Occupation" formControlName="occupation">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Education:</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" id="education" placeholder="Enter education" formControlName="education">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Annually Income:</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" id="income" placeholder="Enter Income" formControlName="income">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="col-sm-6 control-label"><b>Family Type:</b></label>
+                        <select class="dropdown dropdown-toggle form-control" name="familyType" formControlName="familyType">
+          <option class="dropdown-item" value='null' disabled>-----Choose Family Type-----</option>
+          <option [ngValue]="list" *ngFor="let list of familyType" selected>{{ list }}</option>
+          </select>
+                        <button type="submit" class="btn btn-success" [disabled]="addRelationForm.invalid" (click)="scroll(target)">{{addfamilyBtn}}</button>
+                        <button class="btn btn-danger" (click)="cancelValue()">Cancel</button>
+                    </form>
+                </div>
+                <button type="button" *ngIf="showAddFamilyButton" style="float: right" class="btn btn-primary" (click)="showAddFamilyForm()"><i class="fa fa-plus-square"></i>&nbsp;Add Family</button>
+            </div>
+            <!-- Employee Family add  -->
+
+            <!--Profile payroll setting start-->
+            <div class="tab-pane" id="profilePayroll" role="tabpanel">
+                <!-- list payroll setting  -->
+                <div class="card" *ngIf="payrollList">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item" *ngFor="let list of payrollData">
+                                <div class="card" style="background-color:ghostwhite">
+                                    <h5 style="text-align: center;">Payroll Details </h5>
+                                    <table class="table" style="margin: auto">
+                                        <tr>
+                                            <th>CTC:</th>
+                                            <td>{{ list.ctc }}</td>
+                                            <th>CTC Effective From Date:</th>
+                                            <td>{{ list.ctcEffectiveFromDate | date}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>CTC Effective To Date:</th>
+                                            <td>{{ list.ctcEffectiveToDate | date}}</td>
+                                            <th>Earned Leave Balance:</th>
+                                            <td>{{ list.earnedLeaveBalance}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Grade Rule:</th>
+                                            <td>{{ list.gradeRuleName}}</td>
+                                            <th>Paid Leave Balance:</th>
+                                            <td>{{ list.paidLeaveBalance}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Basic Pay</th>
+                                            <td>{{ list.basicPay}}</td>
+                                            <th>Payment Mode</th>
+                                            <td>{{ list.mode}}</td>
+                                        </tr>
+                                    </table>
+
+                                    <div>
+                                        <button style="float: right" (click)="payrollSettingEdit()" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i>&nbsp;Update</button>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- list payroll setting -->
+                <div class="col-sm-offset-2">
+                    <p class="alert alert-danger" *ngIf="errorMsg">
+                        <strong>{{ errMsg }}</strong>
+                    </p>
+                </div>
+                <div class="col-sm-offset-2">
+                    <p class="alert alert-success" *ngIf="successMessage">
+                        <strong>{{ successMsg }}</strong>
+                    </p>
+                </div>
+                <form class="form-horizontal" role="form" [formGroup]="payrollDetailsForm" (ngSubmit)="payrollAdd()" *ngIf="payrollForm" novalidate>
+                    <div [formGroup]="payrollDetailsForm.get('payroll')">
+                        <h5 class="text-center"><b>Payroll Details</b></h5>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>CTC:&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="ctc" placeholder="Enter CTC" formControlName="ctc">
+                                        <div *ngFor="let validation of payrollValidations.ctc">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                          payrollDetailsForm.get('payroll.ctc').hasError(validation.type) &&
+                            (payrollDetailsForm.get('payroll.ctc').dirty ||
+                            payrollDetailsForm.get('payroll.ctc').touched)
+                            " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>CTC Effective From Date:&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="date" id="ctcEffectiveFromDate" placeholder="Enter CTC Effective From Date" formControlName="ctcEffectiveFromDate">
+                                        <div *ngFor="let validation of payrollValidations.ctcEffectiveFromDate">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                          payrollDetailsForm.get('payroll.ctcEffectiveFromDate').hasError(validation.type) &&
+                            (payrollDetailsForm.get('payroll.ctcEffectiveFromDate').dirty ||
+                            payrollDetailsForm.get('payroll.ctcEffectiveFromDate').touched)
+                            " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>CTC Effective To Date:&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="date" id="ctcEffectiveToDate" placeholder="Enter CTC Effective To Date" formControlName="ctcEffectiveToDate">
+                                        <div *ngFor="let validation of payrollValidations.ctcEffectiveToDate">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                          payrollDetailsForm.get('payroll.ctcEffectiveToDate').hasError(validation.type) &&
+                            (payrollDetailsForm.get('payroll.ctcEffectiveToDate').dirty ||
+                            payrollDetailsForm.get('payroll.ctcEffectiveToDate').touched)
+                            " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Paid Leave Balance:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="paidLeaveBalance" placeholder="Enter Paid Leave Balance" formControlName="paidLeaveBalance">
+                                        <div *ngFor="let validation of payrollValidations.paidLeaveBalance">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                          payrollDetailsForm.get('payroll.paidLeaveBalance').hasError(validation.type) &&
+                            (payrollDetailsForm.get('payroll.paidLeaveBalance').dirty ||
+                            payrollDetailsForm.get('payroll.paidLeaveBalance').touched)
+                            " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Earned Leave Balance:</b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="earnedLeaveBalance" formControlName="earnedLeaveBalance" disabled>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Grade Rule:&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <select class="dropdown dropdown-toggle form-control" name="familyType" formControlName="gradeRule">
+                      <option class="dropdown-item" value='' disabled>-----Choose Grade Rule Name-----</option>
+                      <option  *ngFor="let gradeRule of payrollGradeRuleList" [ngValue]="gradeRule._id" selected>{{ gradeRule.title }}</option>
+                    </select>
+                                        <div *ngFor="let validation of payrollValidations.gradeRule">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                      payrollDetailsForm.get('payroll.gradeRule').hasError(validation.type) &&
+                        (payrollDetailsForm.get('payroll.gradeRule').dirty ||
+                        payrollDetailsForm.get('payroll.gradeRule').touched)
+                        " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Basic Pay:&nbsp;<span
+                    style="color: darkred">*</span></b></label>
+                                    <div class="col-sm-offset-2">
+                                        <input class="form-control" type="text" id="basicPay" placeholder="Enter Basic Pay" formControlName="basicPay">
+                                        <div *ngFor="let validation of payrollValidations.paidLeaveBalance">
+                                            <div style="color: red;margin-left: 14px;" *ngIf="
+                          payrollDetailsForm.get('payroll.basicPay').hasError(validation.type) &&
+                            (payrollDetailsForm.get('payroll.basicPay').dirty ||
+                            payrollDetailsForm.get('payroll.basicPay').touched)
+                            " style="color: red;margin-left: 14px;">
+                                                {{ validation.message }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-6 control-label"><b>Payment Mode:&nbsp;<span
+                  style="color: darkred">*</span></b></label>
+                                    <select class="dropdown dropdown-toggle form-control" formControlName="mode">
+                    <option class="dropdown-item" value='null' disabled>-----
+                        Choose Payment Mode-----
+                    </option>
+                    <option [ngValue]="paymentMode" value="" *ngFor="let paymentMode of paymentType">
+                    {{ paymentMode }}
+                    </option>
+                  </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success" [disabled]="payrollDetailsForm.invalid" (click)="scroll(target)">{{ payrollButton }}</button>
+                    <button type="button" class="btn btn-danger" (click)="backPayrollBtn()">Cancel</button>
+                </form>
+            </div>
+            <!-- profile payroll setting end -->
+
+            <!-- list of langulae skills starts -->
+            <div class="tab-pane" id="languageSkill" role="tabpanel">
+                <!-- list of language skills -->
+                <div class="card" style="background-color:whitesmoke;" *ngIf="languageSkillList">
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <div class="card-body">
+                                <table class="table" style="text-align: center;">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th>Read </th>
+                                            <th>Speak </th>
+                                            <th>Write </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor=" let list of LanguageData">
+                                        <tr>
+                                            <td> {{list.toRead}} </td>
+                                            <td> {{list.toSpeak}} </td>
+                                            <td> {{list.toWrite}}</td>
+                                            <td>
+                                                <button (click)="languageSkillEdit(list._id)" style="color: white;" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i> </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+                <!-- list of language skills -->
+                <div *ngIf="lsnguageSkillForm">
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-danger" *ngIf="errorMsg">
+                            <strong>{{ errMsg }}</strong>
+                        </p>
+                    </div>
+                    <div class="col-sm-offset-2">
+                        <p class="alert alert-success" *ngIf="successMessage">
+                            <strong>{{ successMsg }}</strong>
+                        </p>
+                    </div>
+                    <form class="form-horizontal" role="form" [formGroup]="languageSkillForm" (ngSubmit)="addLanguageSkill()" novalidate>
+                        <h3>{{languageSkillTitle}} Language</h3>
+                        <div [formGroup]="languageSkillForm.get('languageSkills')">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Speak:</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" id="toSpeak" placeholder="Enter Speak Language" formControlName="toSpeak">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Read:</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" id="toRead" placeholder="Enter Read Language" formControlName="toRead">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Write:</b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" id="toWrite" placeholder="Enter Write Language" formControlName="toWrite">
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success" [disabled]="languageSkillForm.invalid" (click)="scroll(target)">{{skillLanguageBtn}}</button>
+                        <button class="btn btn-danger" (click)="cancelLanguageSkill()">Cancel</button>
+                    </form>
+                </div>
+                <button (click)="addLanguageSkillList()" *ngIf="addLanguageBtn" class="btn btn-info" style="color: white; float: right;">Add Language</button>
+            </div>
+            <!-- list of langulae skills end -->
+
+            <!-- Employee leave setting start-->
+            <div class="tab-pane" id="leaveSetting" role="tabpanel">
+                <div class="card-body">
+                    <input type="hidden" id="employeeId" #employeeId value="{{ hidden }}" />
+                    <!-- for show leave list  -->
+                    <div class="card" style="background-color:whitesmoke;" *ngIf="employeeLeaveList">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div class="card-body">
+                                    <table class="table" style="text-align: center;">
+                                        <thead class=" text-primary">
+                                            <tr>
+                                                <th>Start Date </th>
+                                                <th>End Date </th>
+                                                <th>Leave Per Month </th>
+                                                <th>Reason</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor=" let list of employeeLeaveData">
+                                            <tr>
+                                                <td> {{list.startDate | date}} </td>
+                                                <td> {{list.endDate | date}} </td>
+                                                <td> {{list.leavePerMonth}}</td>
+                                                <td> {{list.reason}}</td>
+                                                <td>
+                                                    <button (click)="leaveSettingUpdateDetails(list._id)" class="btn btn-primary" style="color: white;"><i class="fa fa-pencil-square-o"></i>
+                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- show leave list end -->
+                    <div *ngIf="employeeLeaveForm">
+                        <div class="col-sm-offset-2">
+                            <p class="alert alert-danger" *ngIf="errorMsg">
+                                <strong>{{ errMsg }}</strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-offset-2">
+                            <p class="alert alert-success" *ngIf="successMessage">
+                                <strong>{{ successMsg }}</strong>
+                            </p>
+                        </div>
+                        <form class="form-horizontal" role="form" [formGroup]="employeeLeaveDetailsForm" (ngSubmit)="addLeaveSetting()" novalidate>
+                            <h3 style="text-align: center;">{{leaveSettingHeadingButton}}</h3>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label"><b>Start Date :&nbsp;<span style="color: darkred">*</span></b></label>
+                                        <div class="col-sm-offset-2">
+                                            <input class="form-control" type="date" placeholder="Enter Start Date" value="" formControlName="startDate" />
+                                            <div *ngFor="let validation of validationMessageLeaveSettings.startDate">
+                                                <div style="color: red;margin-left: 14px;" *ngIf="
+                                    employeeLeaveDetailsForm.get('startDate').hasError(validation.type) &&
+                                    (employeeLeaveDetailsForm.get('startDate').dirty ||
+                                    employeeLeaveDetailsForm.get('startDate').touched)
+                                    " style="color: red;margin-left: 14px;">
+                                                    {{ validation.message }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label"><b>Leave Per Month :&nbsp;<span
+                          style="color: darkred">*</span></b></label>
+                                        <div class="col-sm-offset-2">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Leave Per Month" formControlName="leavePerMonth" />
+                                            <div *ngFor="let validation of validationMessageLeaveSettings.leavePerMonth">
+                                                <div style="color: red;margin-left: 14px;" *ngIf="
+                                employeeLeaveDetailsForm.get('leavePerMonth').hasError(validation.type) &&
+                                (employeeLeaveDetailsForm.get('leavePerMonth').dirty ||
+                                employeeLeaveDetailsForm.get('leavePerMonth').touched)
+                                " style="color: red;margin-left: 14px;">
+                                                    {{ validation.message }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label"><b>End Date :&nbsp;<span
+                          style="color: darkred">*</span></b></label>
+                                        <div class="col-sm-offset-2">
+                                            <input class="form-control" type="date" value="" placeholder="Enter End Date" formControlName="endDate" />
+                                            <div *ngFor="let validation of validationMessageLeaveSettings.endDate">
+                                                <div style="color: red;margin-left: 14px;" *ngIf="
+                                    employeeLeaveDetailsForm.get('endDate').hasError(validation.type) &&
+                                    (employeeLeaveDetailsForm.get('endDate').dirty ||
+                                    employeeLeaveDetailsForm.get('endDate').touched)
+                                    " style="color: red;margin-left: 14px;">
+                                                    {{ validation.message }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-6 control-label"><b>Reason :</b></label>
+                                        <div class="col-sm-offset-2">
+                                            <input class="form-control" type="text" value="" placeholder="Enter Reason" formControlName="reason" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" [disabled]="employeeLeaveDetailsForm.invalid">
+                  {{leaveButton}}
+                  </button>
+                                <button type='button' (click)="leaveSettingCancel()" class="btn btn-danger">
+                    Cancel
+                  </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <button (click)="addNewLeaveSettings()" *ngIf="leaveSettingButton" class="btn btn-info" style="color: white; float: right;">Add Leave Settings</button>
+            </div>
+            <!-- Employee leave setting end -->
+            <!--Employee Identity Proofs Panel Start-->
+            <div class="tab-pane" id="identityproofs" role="tabpanel">
+                <div class="card-body">
+                    <input type="hidden" id="employeeId" #employeeId value="{{ hidden }}" />
+                    <!-- for show Identity Proofs list  -->
+                    <div class="card" style="background-color:whitesmoke;" *ngIf="idProofsList">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div class="card-body">
+                                    <table class="table" style="text-align: center;">
+                                        <thead class=" text-primary">
+                                            <tr>
+                                                <th>Identity Name </th>
+                                                <th>Identity Number</th>
+                                                <th>Expiry Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody *ngFor=" let list of idProofsData">
+                                            <tr>
+                                                <td> {{list.identityName}} </td>
+                                                <td> {{list.identityNum}} </td>
+                                                <td> {{list.expiryDate | date}}</td>
+                                                <td>
+
+                                                    <button (click)="idProofsSettingUpdateDetails(list._id)" class="btn btn-primary" style="color: white;"><i
+                                  class="fa fa-pencil-square-o"></i>
+                                </button>&nbsp;
+                                                    <button type="button" class="btn btn-danger" (click)="deleteIdentityProofs(list._id)"><i
+                                  class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- show Identity Proofs list end -->
+                    <div *ngIf="idProofsForm">
+                        <div class="col-sm-offset-2">
+                            <p class="alert alert-danger" *ngIf="errorMsg">
+                                <strong>{{ errMsg }}</strong>
+                            </p>
+                        </div>
+                        <div class="col-sm-offset-2">
+                            <p class="alert alert-success" *ngIf="successMessage">
+                                <strong>{{ successMsg }}</strong>
+                            </p>
+                        </div>
+                        <form class="form-horizontal" role="form" [formGroup]="idProofsDetailsForm" (ngSubmit)="addIdProofs()" novalidate>
+                            <div [formGroup]="idProofsDetailsForm.get('identityProofs')">
+                                <h3 style="text-align: center;">{{idProofsHeadingButton}}</h3>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Identity Name :&nbsp;<span style="color: darkred">*</span></b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" placeholder="Enter Identity Name" value="" formControlName="identityName" />
+                                                <div *ngFor="let validation of validationMessageIdProofsSettings.identityName">
+                                                    <div style="color: red;margin-left: 14px;" *ngIf="
+                                  idProofsDetailsForm.get('identityProofs.identityName').hasError(validation.type) &&
+                                  (idProofsDetailsForm.get('identityProofs.identityName').dirty ||
+                                  idProofsDetailsForm.get('identityProofs.identityName').touched)
+                                  " style="color: red;margin-left: 14px;">
+                                                        {{ validation.message }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Identity Number :&nbsp;<span
+                        style="color: darkred">*</span></b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" value="" placeholder="Enter Identity Number" formControlName="identityNum" />
+                                                <div *ngFor="let validation of validationMessageIdProofsSettings.identityNum">
+                                                    <div style="color: red;margin-left: 14px;" *ngIf="
+                              idProofsDetailsForm.get('identityProofs.identityNum').hasError(validation.type) &&
+                              (idProofsDetailsForm.get('identityProofs.identityNum').dirty ||
+                              idProofsDetailsForm.get('identityProofs.identityNum').touched)
+                              " style="color: red;margin-left: 14px;">
+                                                        {{ validation.message }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Authority Name :&nbsp;</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" value="" placeholder="Enter Authority Name" formControlName="authorityName" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Issue Place :&nbsp;</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" value="" placeholder="Enter Issue Place" formControlName="issuePlace" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Expiry Date :&nbsp;<span
+                          style="color: darkred">*</span></b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="date" value="" placeholder="Enter Expiry Date" formControlName="expiryDate" />
+                                                <div *ngFor="let validation of validationMessageIdProofsSettings.expiryDate">
+                                                    <div style="color: red;margin-left: 14px;" *ngIf="
+                                    idProofsDetailsForm.get('identityProofs.expiryDate').hasError(validation.type) &&
+                                    (idProofsDetailsForm.get('identityProofs.expiryDate').dirty ||
+                                    idProofsDetailsForm.get('identityProofs.expiryDate').touched)
+                                    " style="color: red;margin-left: 14px;">
+                                                        {{ validation.message }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-6 control-label"><b>Remarks :&nbsp;</b></label>
+                                            <div class="col-sm-offset-2">
+                                                <input class="form-control" type="text" value="" placeholder="Enter Remarks" formControlName="remarks" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success" [disabled]="idProofsDetailsForm.invalid">
+                {{idProofsButton}}
+                </button>
+                                <button type='button' (click)="idProofsSettingsCancel()" class="btn btn-danger">
+                  Cancel
+                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <button (click)="addNewIdProofsSettings()" *ngIf="idProofsSettingButton" class="btn btn-info" style="color: white; float: right;">Add Identity Proofs</button>
+            </div>
+            <!--Employee Identity Proofs Panel End-->
+
+        </div>
+    </div>
+
+    <div class="modal" id="updateDocument">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Document</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="card" style="background-color:whitesmoke;">
+                        <div class="panel-body">
+                            <ul class="list-group">
+                                <div class="card-body">
+                                    <table class="table" style="text-align: center;">
+                                        <thead class=" text-primary">
+                                            <tr>
+                                                <th>Update Doc Image</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td> <input type="file" class="form-control-file border" id="updateExistingDocument" (change)="onFileSelect($event)" accept="image/*"> </td>
+                                                <td>
+                                                    <button class="btn btn-outline-primary btn-round" (click)="uploadDocs(documentTypeId,'updateExistingDocument','Update')">
+                                <i class="fas fa-camera-retro"></i> Submit
+                              </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button" id="dismissUpdateDocuments" class="btn btn-danger" style="float:right;" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

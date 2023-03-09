@@ -1,0 +1,39 @@
+@import './scss/navbar';
+@import './scss/variable.scss';
+@import './scss/sidebar-and-main-panel';
+@import './scss/page-header';
+@import './scss/mixins';
+@import './scss/buttons';
+@import './scss/cards';
+@import './scss/alerts';
+@import './scss/animated-buttons';
+@import './scss/fixed-plugin';
+@import './scss/dropdown';
+@import './scss/footers';
+@import './scss/misc';
+@import './scss/responsive';
+@import './scss/tables';
+@import './scss/typography';
+//  @import './scss/inputs';
+@import './scss/checkboxes-radio';
+@import './scss/images';
+@import './scss/plugins/plugin-animate-bootstrap-notify';
+@import './scss/plugins/plugin-perfect-scrollbar';
+@import './scss/cards/card-chart';
+@import './scss/cards/card-map';
+@import './scss/cards/card-plain';
+@import './scss/cards/card-stats';
+@import './scss/cards/card-user';
+.ngx-pagination {
+    margin-left: 0 !important;
+    margin-bottom: 1rem !important;
+    border-radius: 6px !important;
+    background: aliceblue !important;
+    float: right !important;
+    padding: 5px !important;
+    margin-top: 13px !important;
+}
+
+.ngx-pagination .current {
+    background: #51cbce !important;
+}

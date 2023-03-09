@@ -1,0 +1,20 @@
+### STAGE 1: build ###
+FROM node:16.13.2-alpine AS build
+WORKDIR /usr/src/client
+COPY package.json ./
+#RUN npm install -g npm@9.6.0
+#RUN npm install -g yarn
+RUN yarn install
+COPY . .
+RUN yarn build-staging
+
+### STAGE 2: Run ###
+FROM ubuntu/nginx:latest
+COPY default /etc/nginx/sites-available/
+#COPY default.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /usr/src/client/dist/Aryapayroll /var/www/html
+#COPY bundle.crt /usr/share   ## ssl certificate
+#COPY watchout_key.key /usr/share  ## ssl key
+EXPOSE 80 443
+
+

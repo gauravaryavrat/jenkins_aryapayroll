@@ -1,0 +1,108 @@
+<div class="card card-user">
+        <div class="card-header">
+            <h2 class="card-title text-center">Grade Rule Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="col-sm-offset-2">
+                <p class="alert alert-danger" *ngIf="serverErrorMsg">
+                    <strong>{{ errMsg }}</strong>
+                </p>
+            </div>
+            <div class="col-sm-offset-2">
+                <p class="alert alert-success" *ngIf="successMessage">
+                    <strong>{{ successMsg }}</strong>
+                </p>
+            </div>
+            <form class="form-horizontal" role="form" [formGroup]="graderuleForm" (ngSubmit)="graderuleData()"
+            novalidate>
+                <div class="cols">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Title:&nbsp;<span style="color: darkred">*</span></b></label>
+                    <div class="col-sm-offset-2">
+                        <input class="form-control" onkeyup="this.value = this.value.trim()" type="text" id="title" placeholder="Enter Title" formControlName="title"
+                        required>
+                        <div *ngFor="let validation of validationMessage.title">
+                            <div style="color: red;margin-left: 1%;"
+                                *ngIf="graderuleForm.get('title').hasError(validation.type) && (graderuleForm.get('title').dirty || graderuleForm.get('title').touched)"
+                                style="color: red;margin-left: 1%;">
+                                {{ validation.message }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div [formGroup]="graderuleForm.get('paymentHead')">
+                    <label class="col-sm-6 control-label"><b>Payment Head:&nbsp;<span style="color: darkred">*</span></b></label>
+                    <select class="dropdown dropdown-toggle form-control" name="Payment Heades" (change)="check($event.target)" formControlName="paymentHeadId">
+                        <option ng-selected="true" value="" disabled>----------Select Payment Head Name----------</option>
+                        <option *ngFor="let list of paymentHeadDataList" [ngValue]="list._id" selected>{{ list.title }}</option>
+                    </select>
+                    <div *ngFor="let validation of validationMessage.paymentHeadId">
+                        <div style="color: red;margin-left: 1%;"
+                            *ngIf="graderuleForm.get('paymentHead.paymentHeadId').hasError(validation.type) && (graderuleForm.get('paymentHead.paymentHeadId').dirty || graderuleForm.get('paymentHead.paymentHeadId').touched)"
+                            style="color: red;margin-left: 1%;">
+                            {{ validation.message }}
+                        </div>
+                    </div>
+                <br>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label class="col-sm-4 control-label"><b>Type:&nbsp;</b></label>
+                            <select class="dropdown dropdown-toggle form-control" id="typeValue" (change)="check($event)" formControlName="type">
+                                <option ng-selected="true" value="" disabled>----------Select Grade Type----------</option>
+                                <option class="dropdown-item"  *ngFor='let type of gradeType' >{{ type }}</option>
+
+                            </select>
+                            <div *ngFor="let validation of validationMessage.type">
+                                <div style="color: red;margin-left: 1%;"
+                                    *ngIf="graderuleForm.get('paymentHead.type').hasError(validation.type) && (graderuleForm.get('paymentHead.type').dirty || graderuleForm.get('paymentHead.type').touched)"
+                                    style="color: red;margin-left: 1%;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="Fixed">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Enter Amount:&nbsp;<span style="color: darkred">*</span></b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="text" id="value" placeholder="Enter Amount" formControlName="value" required >
+                                </div>
+                            </div>
+                            <div *ngFor="let validation of validationMessage.value">
+                                <div style="color: red;margin-left: 1%;"
+                                    *ngIf="graderuleForm.get('paymentHead.value').hasError(validation.type) && (graderuleForm.get('paymentHead.value').dirty || graderuleForm.get('paymentHead.value').touched)"
+                                    style="color: red;margin-left: 1%;">
+                                    {{ validation.message }}
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-4" *ngIf="Percent">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Enter Percent:&nbsp;<span style="color: darkred">*</span></b></label>
+                                <div class="col-sm-offset-2">
+                                    <input class="form-control" type="number" id="percentValue" (input)="demo()" placeholder="Enter Percent" formControlName="value" required>
+                                </div>
+                            </div>
+                            <div><p style="color:red;">{{percentErrorMsg}}</p></div>
+                            <div><p style="color:red;"> {{ errorMsg }}</p></div>
+                        </div>
+
+                        <div class="col-md-4" *ngIf="Percent">
+                            <div class="form-group">
+                                <label class="col-sm-6 control-label"><b>Percent Of:&nbsp;<span style="color: darkred">*</span></b></label>
+                                <select class="dropdown dropdown-toggle form-control" name="Payment Heades">
+                                    <option ng-selected="true" value="" disabled>----Select Percent Of----</option>
+                                    <option *ngFor="let fixedHeads of fixedPaymentHeadsList" [ngValue]="fixedHeads.value" selected>{{ fixedHeads.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success"  [disabled]="graderuleForm.invalid || errorMsg || percentErrorMsg || permissionInfo.search('Create GradeRule') === -1" (click)="demo()">Submit</button>
+                <button class="btn btn-danger" routerLink="/pages/graderule/list-graderule">Cancel</button>
+            </form>
+        </div>
+    </div>

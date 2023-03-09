@@ -1,0 +1,114 @@
+<div class="card card-u">
+   <div class="card-header">
+      <h2 class="card-title text-center" #target>Update Salary Slip</h2>
+   </div>
+
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{errMsg}}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{successMsg}}</strong>
+         </p>
+      </div>
+
+      <form class="form-horizontal" role="form" [formGroup]="updateSalarySlipForm">
+         <div [formGroup]="updateSalarySlipForm.get('employeeDetails')">
+               <div class="row">
+                 <div class="col-lg-6 col-md-6 col-sm-6">
+                   <div class="form-group">
+                      <label class="control-label "><b>Employee Name:</b></label><br>
+                       <input type="text" class="form-control" formControlName="employeeName" readonly>
+                     </div>
+                 </div>
+                 <div class="col-lg-6 col-md-6 col-sm-6">
+                   <div class="form-group">
+                     <label class="control-label "><b>Designation:</b></label><br>
+                     <input type="text" class="form-control" formControlName="designation" readonly>
+                 </div>
+                 </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                       <label class="control-label"><b>Present Days:</b></label><br>
+                        <input type="text" class="form-control" formControlName="present">
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label col-sm-6"><b>Pay Days:</b></label><br>
+                      <input type="text" class="form-control" formControlName="payDays">
+                  </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                       <label class="control-label "><b>Earned Leaves:</b></label><br>
+                        <input type="text" class="form-control" formControlName="earnedLeaves" readonly>
+                      </div>
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="form-group">
+                      <label class="control-label "><b>Unsactioned Leaves:</b></label><br>
+                      <input type="text" class="form-control" formControlName="unsanctionedLeave" readonly>
+                  </div>
+                  </div>
+                </div>
+         </div>
+      </form>
+
+      <button class="btn btn-success" (click)="showFunctinality()">{{buttonValue}}</button>
+<div class="row" *ngIf='showButtonValue'>
+<div class="col-lg-6 col-md-6 col-sm-6">
+<!-- Earning Form Values -->
+<form class="form-horizontal" role="form" [formGroup]="earningsForm">
+   <div [formGroup]="earningsForm.get('earnings')">
+         <div class="edit-form-heading">
+            <h3>Total Earnings</h3>
+         </div>
+   <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6" *ngFor="let earnings of salarySlipEarnings">
+         <div class="form-group">
+            <label class="control-label "><b>{{ earnings.label }}<sup class="redtext">*</sup>:</b></label><br>
+            <input type="text" class="form-control" id="{{ earnings.label }}" (keyup)="checkValidation(earnings.label)" formControlName="{{earnings.label}}">
+            <div><p class="errortext bottomspace-none">{{salarySlipPattern[earnings.label]}}</p></div>
+        </div>
+      </div>
+   </div>
+   </div>
+</form>
+</div>
+<div class="col-lg-6 col-md-6 col-sm-6">
+<!-- Deduction Form Values -->
+<form class="form-horizontal" role="form" [formGroup]="deductionForm">
+   <div [formGroup]="deductionForm.get('deductions')">
+         <div class="edit-form-heading">
+            <h3>Total Deductions</h3>
+         </div>
+   <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6" *ngFor="let deductions of salarySlipDeductions">
+         <div class="form-group">
+            <label class="control-label "><b>{{ deductions.label }}<sup class="redtext">*</sup>:</b></label><br>
+            <input type="text" class="form-control" id="{{ deductions.label }}" (keyup)="checkValidation(deductions.label)" formControlName="{{deductions.label}}">
+            <div><p class="errortext bottomspace-none">{{salarySlipPattern[deductions.label]}}</p></div>
+        </div>
+      </div>
+   </div>
+
+   </div>
+</form>
+   </div>
+</div>
+            <div class="form-group">
+               <div class="">
+                  <button type="submit" class="btn btn-success" [disabled]="didUpdate" (click)="updateSalarySlip(target)">Update</button>
+                  <button type="submit" class="btn btn-danger" routerLink="/pages/payroll/list-payroll">Cancel</button>
+               </div>
+            </div>
+   </div>
+</div>

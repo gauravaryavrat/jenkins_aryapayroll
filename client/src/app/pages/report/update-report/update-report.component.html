@@ -1,0 +1,41 @@
+<div class="card card-u</div>ser">
+   <div class="card-header">
+      <h2 class="card-title text-center">Update Payment Heads</h2>
+   </div>
+   <div class="card-body">
+      <div class="col-sm-offset-2">
+         <p class="alert alert-danger" *ngIf="errorMsg">
+            <strong>{{errMsg}}</strong>
+         </p>
+      </div>
+      <div class="col-sm-offset-2">
+         <p class="alert alert-success" *ngIf="successMessage">
+            <strong>{{successMsg}}</strong>
+         </p>
+      </div>
+      <form class="form-horizontal" role="form" [formGroup]="paymentHeadUpdateForm" (ngSubmit)="updatePaymenthead()" >
+            <div class="form-group">
+               <label class="col-sm-6 control-label"><b>title: </b></label>
+               <div class="col-sm-offset-2">
+                  <input class="form-control" type="text" id="title" placeholder="Enter Title"
+                     formControlName="title">
+               </div>
+            </div>
+            <div class="form-group">
+                  <label class="col-sm-6 control-label"><b>type:</b></label>
+                  <div class="col-sm-offset-2">
+                  <select id="type" class="dropdown dropdown-toggle form-control" formControlName="type" style="width:100%; height: 40px;">
+                        <option *ngFor="let h of paymentHeadTypes" [value]="h">{{h}}</option>
+                  </select>
+                  </div>
+               </div>
+            
+            <div class="form-group">
+               <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success" [disabled]="paymentHeadUpdateForm.invalid">Update</button>
+                  <button type="submit" class="btn btn-danger" routerLink="../../list-payment-heads">Cancel</button>
+               </div>
+            </div>
+         </form>
+   </div>
+</div>

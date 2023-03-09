@@ -1,0 +1,50 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Job Category</h2>
+        <button [disabled]="permissionInfo.search('Create JobCategory')=== -1"
+         class="btn btn-primary" type="button" routerLink="/pages/job-category/add-job-category"style="float: right;" (click)= "addJobCategory()"><i class="fa fa-plus-square"></i>&nbsp; Add Job Category</button
+            >
+    </div>
+    <!-- <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let list of leaveListData">
+                <div class="row">
+                    <div class="col-md-5">
+                        <p><b>Category Name: </b> {{list?.categoryName}} </p>
+                    </div>
+                    <div class="col-md-5">
+                        <p *ngIf="list?.isActive" ngIfElse=""> <b>Is Active: </b>Yes</p>
+                        <p *ngIf="!list?.isActive"> <b>Is Active: </b>No</p>
+                    </div>
+                    <div class="cpl-md-2">
+                        <a routerLink="/pages/job-category/update-job-category/{{list._id}}"style="float: right" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>
+                        <button style="float: right;" class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div> -->
+    <table class="table" style="text-align: center;">
+        <thead class=" text-primary">
+            <tr>
+            <th> S.No</th>
+            <th> Category Name</th>
+            <th> Is Active</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let list of leaveListData; let i = index">
+            <tr >
+            <td> <b>{{ i+1 }}.</b> </td>
+            <td> {{ list.categoryName }} </td>
+            <td *ngIf="list.isActive"><i class="fa fa-check" style="color: green; font-size: 25px;"></i></td>
+            <td *ngIf="!list.isActive"><i class="fa fa-times" style="color: red; font-size: 25px;"></i></td>
+            <td>
+                <a [class.disabled]="permissionInfo.search('Edit JobCategory')=== -1"
+                 routerLink="/pages/job-category/update-job-category/{{list._id}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a
+                    >&nbsp;
+                <button [disabled]="permissionInfo.search('Delete JobCategory')=== -1"
+                 class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i></button>
+            </td>
+            </tr>
+    </table>
+</div>

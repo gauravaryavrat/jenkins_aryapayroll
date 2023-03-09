@@ -1,0 +1,32 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Departments List</h2>
+        <button [disabled]="permissionInfo.search('Create Department') === -1"
+        class="btn btn-primary" type="button" (click)="addDepartment()" routerLink="/pages/department/add-department" style="float: right;"><i class="fa fa-plus-square"></i>&nbsp; Add Department</button>
+    </div>
+    <table class="table" style="text-align: center;">
+            <thead class=" text-primary">
+              <tr>
+                <th> S.No </th>
+                <th> Title </th>
+                <th>description</th>
+                <th> Action </th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let list of departmentData; let i = index">
+              <tr >
+                <td> <b>{{ i+1 }}.</b></td>
+                <td> {{ list.title }} </td>
+                <td> {{list.description}}</td>
+                <td>
+                    <a [class.disabled]="permissionInfo.search('Edit Department') === -1"
+                    routerLink="/pages/department/update-department/{{list._id}}/{{list.userId}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+                    <button [disabled]="permissionInfo.search('Delete Department') === -1"
+                    class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i></button>
+                </td>
+              </tr>
+    </table>
+</div>
+
+
+

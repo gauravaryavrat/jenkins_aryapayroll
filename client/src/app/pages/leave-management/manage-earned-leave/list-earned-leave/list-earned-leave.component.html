@@ -1,0 +1,152 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="text-align: center;">Earned Leave List</h2>
+    </div>
+    <div class="card-body">
+
+
+        <div class="form-row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label"><b>Active Employees:</b></label>
+                    <select class="dropdown dropdown-toggle form-control" id="earendLeaveEmployee">
+                        <option class='dropdown-item' ng-selected="true" value="" disabled selected>Select Employee
+                        </option>
+                        <option class="dropdown-item" *ngFor="let employee of companyEmployeelist"
+                            value="{{employee._id}}">
+                            {{employee.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Year:</b></label>
+                    <input class="form-control" type="text" id="earnedLeaveYear" (input)="yearValidation()"
+                        placeholder="Enter Year">
+                    <div>
+                        <p style="color:red;">{{earnedLeaveYearMsg}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Month:&nbsp;<span
+                                style="color: darkred">*</span></b></label>
+                    <select class="dropdown dropdown-toggle form-control" id="earnedLeaveMonth">
+                        <option class='dropdown-item' ng-selected="true" value="" disabled selected>Select Month
+                        </option>
+                        <option class="dropdown-item" *ngFor="let month of earnedLeaveMonths" value="{{month}}">
+                            {{month}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="form-group right-buttongroup">
+                    <button class="btn btn-primary" [disabled]="earnedLeaveYearMsg" (click)="filterFunctionality()"><i class="fa fa-filter"></i>&nbsp; Filter</button>
+                </div>
+            </div>
+        </div>
+
+            <div class="col-lg-12">
+                <div class="form-group" style="float: right;">
+                        <button [disabled]="permissionInfo.search('Create EarnedLeave') === -1" class="btn btn-primary" routerLink="/pages/leave-management/add-earned-leave"><i class="fa fa-plus-square"></i>&nbsp; Add  Earned Leave</button>
+                </div>
+            </div>
+
+
+        
+    </div>
+    <div class="card-body">
+        <div class="card" style="background-color:whitesmoke;">
+            <div class="panel-body">
+                <ul class="list-group">
+                    <div class="card-body">
+                        <table class="table" style="text-align: center;">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Employee Name </th>
+                                    <th>Month </th>
+                                    <th>Year</th>
+                                    <th>Earned Balance</th>
+                                    <th>Reason</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody *ngFor="let earnedLeave of earnedLeaveList">
+                                <tr>
+                                    <td> {{earnedLeave.name}} </td>
+                                    <td> {{earnedLeave.month}} </td>
+                                    <td> {{earnedLeave.year}} </td>
+                                    <td> {{earnedLeave.leaveCount}}</td>
+                                    <td> {{earnedLeave.reason}}</td>
+                                    <td>
+                                        <button [disabled]="permissionInfo.search('Edit EarnedLeave') === -1"
+                                            itle="Update"
+                                            routerLink="/pages/leave-management/update-earned-leave/{{ earnedLeave.earnedLeaveId }}/{{ earnedLeave._id }}"
+                                            class="btn btn-primary" style="color: white;"><i
+                                                class="fa fa-pencil-square-o"></i>
+                                        </button>&nbsp;
+                                        <button title="History" (click)='fetchHistory(earnedLeave._id)'
+                                            class="btn btn-info" style="color: white;"><i class="fa fa-history"></i>
+                                        </button>&nbsp;
+                                        <button class="btn btn-danger"
+                                            (click)="deleteEarnedLeave(earnedLeave._id,earnedLeave.year,earnedLeave.month,earnedLeave.leaveCount)"><i
+                                                class="fa fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <div class="card" style="background-color:rgb(178, 218, 208);"
+                                            [hidden]="showHistoryCards[earnedLeave._id]">
+                                            <h4 style="text-align: center;">Earned Leave History</h4>
+                                            <table class="table" *ngFor='let earnedLeaveHistroy of earnedLeaveHistory'>
+                                                <tr>
+                                                    <th>Reason:</th>
+                                                    <td>{{ earnedLeaveHistroy.reason }}</td>
+                                                    <th>Earned Leave Balance:</th>
+                                                    <td>{{ earnedLeaveHistroy.leaveCount }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Earned Date:</th>
+                                                    <td>{{ earnedLeaveHistroy.metaData.createdAt | date:'fullDate' }}
+                                                        {{ earnedLeaveHistroy.metaData.createdAt | date:'shortTime' }}
+                                                    </td>
+                                                    <th></th>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                            <h4 style="text-align: center;">Earned Leave Deduction History</h4>
+                                            <table class="table"
+                                                *ngFor='let deductionLeaveHistory of deductionLeaveHistory'>
+                                                <tr>
+                                                    <th>Reason:</th>
+                                                    <td>{{ deductionLeaveHistory.reason }}</td>
+                                                    <th>Earned Leave Balance:</th>
+                                                    <td>{{ deductionLeaveHistory.leaveCount }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Deducted Date:</th>
+                                                    <td>{{ deductionLeaveHistory.metaData.createdAt | date:'fullDate' }}
+                                                        {{ deductionLeaveHistory.metaData.createdAt | date:'shortTime' }}
+                                                    </td>
+                                                    <th></th>
+                                                    <td></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="earnedLeaveDataMsg.length != 0">
+        <h3 style="text-align: center;">{{ earnedLeaveDataMsg }}</h3>
+    </div>
+
+</div>

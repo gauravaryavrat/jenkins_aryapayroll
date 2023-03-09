@@ -1,0 +1,75 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Branches List</h2>
+        <a [class.disabled]="permissionInfo.search('Create Branch') === -1"
+        class="btn btn-primary" routerLink="../add-branch" style="float: right;" (click) = "addBranches()"><i
+                class="fa fa-plus-square"></i>&nbsp; Add Branch</a>
+    </div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <li class="list-group-item" *ngFor="let list of branchList">
+                <strong><b (click)="showData(list._id)" style="cursor: pointer">{{ list.name}}</b></strong>
+                <div style="float: right;">
+                    <i class="dropdown-toggle" (click)="showData(list._id)"></i>
+                </div>
+                <div class="card" style="background-color:ghostwhite" [hidden]="showBranchCard[list._id]">
+                    <table class="table" style="margin: auto">
+                        <tr>
+                            <td><b>Name:</b></td>
+                            <td>{{ list.name }}</td>
+                            <td><b>Address:</b></td>
+                            <td>{{ list.address }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Official Number:</b></td>
+                            <td>{{ list.officialNumber }}</td>
+                            <td><b>Fax:</b></td>
+                            <td>{{ list.fax }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Email:</b></td>
+                            <td>{{ list.email }}</td>
+                            <td><b>Bank Name:</b></td>
+                            <td>{{ list.bankName }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Account No:</b></td>
+                            <td>{{ list.bankAccNum }}</td>
+                            <td><b>Country Name:</b></td>
+                            <td>{{ list.countryName }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>Taxation No:</b></td>
+                            <td>{{ list.taxationNumber }}</td>
+                            <td><b>State Name:</b></td>
+                            <td>{{ list.countryState }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>PAN No:</b></td>
+                            <td>{{ list.panNumber }}</td>
+                            <td><b>Currency:</b></td>
+                            <td>{{ list.currency }}</td>
+                        </tr>
+                        <tr>
+                            <td><b>BCC Address for all outgoing mails:</b></td>
+                            <td>{{ list.outGoingMails }}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div>
+                        <a [class.disabled]="permissionInfo.search('Edit Branch') === -1"
+                         routerLink="../update-branch-data/{{ list._id }}" style="float: right" class="btn btn-primary">
+                            <i class="fa fa-pencil-square-o"></i>
+                        </a
+                        >
+                        <button [disabled]="permissionInfo.search('Delete Branch') === -1"
+                         style="float: right;" class="btn btn-danger" type="button"
+                            (click)="showConfirmationMessage(list._id)">
+                            <i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Leave Types</h2>
+        <button [disabled]="permissionInfo.search('Create LeaveType') === -1"
+         class="btn btn-primary" type="button" routerLink="/pages/leave-types/add-leave-types"
+            style="float: right;" (click)="addLeaveTypes()"><i class="fa fa-plus-square"></i>&nbsp; Add Leave Type</button
+            >
+    </div>
+    <table class="table" style="text-align: center;">
+        <thead class=" text-primary">
+            <tr>
+                <th>S.No</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Is Paid</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let list of leaveListData; let i = index">
+            <tr>
+                <td><b>{{i+1}}.</b></td>
+                <td>{{ list.leaveTypeName}}</td>
+                <td>{{ list.leaveTypeCode}}</td>
+                <td *ngIf="list.isPaid"><i class="fa fa-check" style="color: green; font-size: 25px;"></i></td>
+                <td *ngIf="!list.isPaid"><i class="fa fa-times" style="color: red; font-size: 25px;"></i></td>
+            <td>
+                <a [class.disabled]="permissionInfo.search('Edit LeaveType') === -1"
+                 routerLink="/pages/leave-types/update-leave-type/{{list._id}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a
+                    >&nbsp;
+                <button [disabled]="permissionInfo.search('Delete LeaveType') === -1"
+                 class="btn btn-danger" type="button" (click)="showConfirmationMessage(list._id)"> <i class="fa fa-trash"></i></button
+                    >
+            </td>
+            </tr>
+    </table>
+</div>

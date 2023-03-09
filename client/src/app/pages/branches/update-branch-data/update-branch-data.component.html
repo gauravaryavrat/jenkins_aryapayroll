@@ -1,0 +1,180 @@
+<div class="card card-user">
+        <div class="card-header">
+          <h2 class="card-title" #target style="text-align: center">Update Branch Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="col-sm-offset-2">
+              <p class="alert alert-danger" *ngIf="errorMsg">
+                <strong>{{errMsg}}</strong>
+              </p>
+            </div>
+            <div class="col-sm-offset-2">
+              <p class="alert alert-success" *ngIf="successMessage">
+                <strong>{{successMsg}}</strong>
+              </p>
+            </div>
+
+            <form class="form-horizontal"  [formGroup]="updateBranchForm" (ngSubmit)="updateBranchFormData()">
+              <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Name (to appear on reports):&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                  <input class="form-control" type="text" id="inputName" placeholder="Enter Branch Name" formControlName="name"
+                    >
+                    <div *ngFor="let validation of validationMessage.name">
+                      <div style="color: red;margin-left: 14px;"
+                        *ngIf="updateBranchForm.get('name').hasError(validation.type) && (updateBranchForm.get('name').dirty || updateBranchForm.get('name').touched)"
+                        >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-6 control-label"><b>Address:&nbsp;<span style="color: darkred">*</span></b></label>
+                <div class="col-sm-offset-2">
+                  <textarea class="form-control" id="inputAddress" placeholder="Address" formControlName="address"
+                    ></textarea>
+                    <div *ngFor="let validation of validationMessage.address">
+                      <div style="color: red;margin-left: 14px;"
+                        *ngIf="updateBranchForm.get('address').hasError(validation.type) && (updateBranchForm.get('address').dirty || updateBranchForm.get('address').touched)"
+                        >
+                        {{ validation.message }}
+                      </div>
+                    </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>BCC Address for all outgoing mails:</b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="email" id="inputBcc" placeholder="Enter BCC Address"
+                        formControlName="outGoingMails">
+                      <div *ngFor="let validation of validationMessage.outGoingMails">
+                        <div style="color: red;margin-left: 14px;"
+                          *ngIf="updateBranchForm.get('outGoingMails').hasError(validation.type) && (updateBranchForm.get('outGoingMails').dirty || updateBranchForm.get('outGoingMails').touched)"
+                          style="color: red;margin-left: 14px;">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+                <div class="form-group col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Bank Name:</b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="text" placeholder="Enter Bank Name"
+                        formControlName="bankName">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Account Type:</b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="text" placeholder="Enter Account Type"
+                        formControlName="bankType">
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Account Number:</b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="email" placeholder="Enter Account Number"
+                        formControlName="bankAccNum">
+                      <div *ngFor="let validation of validationMessage.bankAccNum">
+                        <div style="color: red;margin-left: 14px;"
+                          *ngIf="updateBranchForm.get('bankAccNum').hasError(validation.type) && (updateBranchForm.get('bankAccNum').dirty || updateBranchForm.get('bankAccNum').touched)"
+                          style="color: red;margin-left: 14px;">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Fax Number:</b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="text" id="inputFax" placeholder="Enter Fax Number:" formControlName="fax" >
+                      <div *ngFor="let validation of validationMessage.fax">
+                        <div style="color: red;margin-left: 14px;"
+                          *ngIf="updateBranchForm.get('fax').hasError(validation.type) && (updateBranchForm.get('fax').dirty || updateBranchForm.get('fax').touched)"
+                          style="color: red;margin-left: 14px;">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Official Branch Number:&nbsp;<span style="color: darkred">*</span></b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="text" id="inputCompanyNo" placeholder="Enter Official Branch Number"
+                        formControlName="officialNumber" >
+                      <div *ngFor="let validation of validationMessage.officialNumber">
+                        <div style="color: red;margin-left: 14px;"
+                          *ngIf="updateBranchForm.get('officialNumber').hasError(validation.type) && (updateBranchForm.get('officialNumber').dirty || updateBranchForm.get('officialNumber').touched)"
+                          style="color: red;margin-left: 14px;">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="col-sm-6 control-label"><b>Taxation No:</b></label>
+                    <div class="col-sm-offset-2">
+                      <input class="form-control" type="text" id="inputTaxationno." placeholder="Enter Taxation Number"
+                        formControlName="taxationNumber">
+                      <div *ngFor="let validation of validationMessage.taxNumber">
+                        <div style="color: red;margin-left: 14px;"
+                          *ngIf="updateBranchForm.get('taxationNumber').hasError(validation.type) && (updateBranchForm.get('taxationNumber').dirty || updateBranchForm.get('taxationNumber').touched)"
+                          style="color: red;margin-left: 14px;">
+                          {{ validation.message }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                      <label class="col-sm-6 control-label"><b>PAN (Permanent Account Number):</b></label>
+                      <div class="col-sm-offset-2">
+                        <input class="form-control" onkeyup="this.value = this.value.toUpperCase().trim();" type="text" id="inputPanno" placeholder="Enter PAN Number"
+                          formControlName="panNumber">
+                        <div *ngFor="let validation of validationMessage.panNumber">
+                          <div style="color: red;margin-left: 14px;"
+                            *ngIf="updateBranchForm.get('panNumber').hasError(validation.type) && (updateBranchForm.get('panNumber').dirty || updateBranchForm.get('panNumber').touched)"
+                            style="color: red;margin-left: 14px;">
+                            {{ validation.message }}
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+             </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button type="submit" class="btn btn-success" (click)="scroll(target)" [disabled]="updateBranchForm.invalid || permissionInfo.search('Edit Branch')=== -1" >Update Branch</button>
+                  <button type="button" class="btn btn-danger" routerLink="../../show-branches" >Cancel</button>
+                </div>
+              </div>
+            </form>
+            </div>
+        </div>

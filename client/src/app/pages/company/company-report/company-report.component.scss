@@ -1,0 +1,54 @@
+.tdcolumn-width100 span {
+    width: 100px;
+    display: block;
+}
+
+.table thead th {
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.btn-margin {
+    margin: 0px 2px !important;
+}
+
+.error-msg {
+    color: red;
+    margin-bottom: 0rem !important;
+}
+
+tr td {
+    white-space: nowrap;
+}
+
+@media screen and (max-width:1200px) {
+    .right-buttongroup button {
+        padding: 10px 10px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .right-buttongroup {
+        float: right;
+    }
+}
+
+.sticky-col {
+    position: -webkit-sticky;
+    position: sticky;
+    background-color: white;
+}
+
+.first-col {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    left: 0px;
+}
+
+.second-col {
+    width: 150px;
+    min-width: 150px;
+    max-width: 150px;
+    left: 100px;
+}

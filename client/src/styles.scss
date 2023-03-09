@@ -1,0 +1,25 @@
+@import './app/styles/style.scss';
+@import "node_modules/angular-notifier/styles";
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.bs-datepicker .bs-media-container bs-month-calendar-view,
+bs-years-calendar-view {
+    margin-right: 6px !important;
+    margin-left: 6px !important;
+}
+
+.theme-green .bs-datepicker-head {
+    background-color: #51cbce !important;
+}
+
+.theme-green .bs-datepicker-body table td span.selected {
+    background-color: #51cbce !important;
+}

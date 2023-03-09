@@ -1,0 +1,31 @@
+<div class="card">
+    <div class="card-header" style="text-align: center">
+        <h2>Payment Heads</h2>
+        <button [disabled]="permissionInfo.search('Create PaymentHeads') === -1"
+        class="btn btn-primary" type="button" routerLink="/pages/payment-heads/add-payment-heads" style="float:right;" (click)= "addPaymentHeads()"><i class="fa fa-plus-square"></i>&nbsp; Add Payment Heads</button>
+    </div>
+    <table class="table" style="text-align: center;">
+        <thead class=" text-primary">
+            <tr>
+            <th> S.No </th>
+            <th> Title </th>
+            <th >Type</th>
+            <th >Action</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let list of paymentData; let i = index">
+            <tr >
+            <td><b>{{ i+1 }}.</b></td>
+            <td> {{ list.title }} </td>
+            <td *ngIf="list.type === 'Addition'"><i id="plus" class="fas fa-plus-square"></i></td>
+            <td *ngIf="list.type === 'Deduction'"><i id="minus" class="fas fa-minus-square"></i></td>
+            <td>
+                <a [class.disabled]="permissionInfo.search('Edit PaymentHeads') === -1"
+                routerLink="/pages/payment-heads/update-payment-heads/{{list._id}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+                <button [disabled]="permissionInfo.search('Delete PaymentHeads') === -1"
+                class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i></button>
+            </td>
+            </tr>
+    </table>
+
+</div>

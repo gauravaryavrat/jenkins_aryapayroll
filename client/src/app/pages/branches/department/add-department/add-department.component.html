@@ -1,0 +1,58 @@
+<div class="card card-user">
+    <div class="card-header">
+        <h2 class="card-title">Department Details</h2>
+        <a routerLink="../../show-departments/{{ snapshotParam }}" class="btn btn-primary btn-circle" style="float: right;"><i
+                class="fa  fa-arrow-right"></i></a>
+    </div>
+
+
+    <div class="card-body">
+        <div class="col-sm-offset-2">
+            <p class="alert alert-danger" *ngIf="errorMsg">
+                <strong>{{ errMsg }}</strong>
+            </p>
+        </div>
+
+        <div class="col-sm-offset-2">
+            <p class="alert alert-success" *ngIf="successMessage">
+                <strong>{{ successMsg }}</strong>
+            </p>
+        </div>
+
+        <form class="form-horizontal" role="form" [formGroup]="departmentForm" (ngSubmit)="departmentFormData()" novalidate>
+                <div class="form-group">
+                        <label class="col-sm-6 control-label"><b>Title:&nbsp;<span style="color: darkred">*</span></b></label>
+                        <div class="col-sm-offset-2">
+                          <input class="form-control" type="text" id="inputTitle" placeholder="Enter Department Name" formControlName="title"
+                            >
+                          <div *ngFor="let validation of validationMessage.title">
+                            <div style="color: red;margin-left: 14px;" 
+                              *ngIf="departmentForm.get('title').hasError(validation.type) && (departmentForm.get('title').dirty || departmentForm.get('title').touched)"
+                              style="color: red;margin-left: 14px;">
+                              {{ validation.message }}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                            <label class="col-sm-6 control-label"><b>Description:</b></label>
+                            <div class="col-sm-offset-2">
+                              <input class="form-control" type="text" id="inputDescription" placeholder="Description" formControlName="description"
+                                >
+                              <!-- <div *ngFor="let validation of validationMessage.description">
+                                <div class="alert alert-danger"
+                                  *ngIf="departmentForm.get('description').hasError(validation.type) && (departmentForm.get('description').dirty || departmentForm.get('description').touched)"
+                                  class="alert alert-danger">
+                                  {{ validation.message }}
+                                </div>
+                              </div> -->
+                            </div>
+                          </div>
+                          <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                  <button type="submit" class="btn btn-success" [disabled]="departmentForm.invalid">Add Department</button>
+                                </div>
+                              </div>
+
+        </form>
+    </div>

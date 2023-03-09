@@ -1,0 +1,72 @@
+<notifier-container></notifier-container>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="large" color="#fff" type="square-jelly-box">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<div class="card card-user">
+    <div class="card-header">
+        <h2 class="card-title text-center">Company Report</h2>
+    </div>
+
+    <div class="card-body">
+        <div class="form-row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+                    <select class="dropdown dropdown-toggle form-control" id="gradeOptions" (change)="selectGrade()">
+          <option class="dropdown-item" ng-selected="true" value="" selected>Select Grade</option>
+          <option class="dropdown-item" *ngFor='let list of gradeDetails'  value="{{list._id}}">{{ list.title }}</option>
+       </select>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="form-group">
+
+                    <input type="text" class="form-control" [bsConfig]="bsConfig" placeholder="Select Months" id="rangeDate" bsDaterangepicker (bsValueChange)="rangeDatesUpdated($event)">
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="form-group right-buttongroup">
+                    <button class="btn btn-primary btn-margin" [disabled]="disableFilter" (click)="filterData()"><i  class="fa fa-filter"></i>Filter</button>
+                    <button class="btn btn-danger btn-margin" (click)="reset()"><i  class="fa fa-trash"></i>Reset</button>
+                    <button *ngIf="viewData.length !== 0" style="float: right;" class="btn btn-success btn-round btn-margin" (click)="generateExcelSheet()"><i class="fas fa-download"></i>Sheet</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <div *ngIf="viewData.length === 0">
+            <p style="font-size: 16px;" class="text-center">Please fill sufficient data for the view of company reports</p>
+        </div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist" #target>
+            <li class="nav-item" *ngFor="let monthTab of sortMonthTabs, let i = index ;">
+                <a class="nav-link" [ngClass]=" i === 0 ? 'active': ''" data-toggle="tab" [attr.href]=" '#' + monthTab.showMonthName + monthTab.showYear " role="tab" [attr.aria-controls]="monthTab.showMonthName" (click)="changeTabData(monthTab.sortingId)">{{  monthTab.showMonthName }} - {{ monthTab.showYear }}</a>
+            </li>
+        </ul>
+
+
+        <div class="tab-content">
+            <div class="tab-pane" *ngFor="let monthTab of sortMonthTabs, let i = index ;" id="{{ monthTab.showMonthName }}{{ monthTab.showYear }}" role="tabpanel" [ngClass]=" i === 0 ? 'active': ''">
+                <div *ngIf="viewData.length !== 0">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="text-primary">
+                                <th class="text-center" *ngFor="let list of headerData, let i = index;" [ngClass]="i === 0  ? 'sticky-col first-col': i === 1 ? 'sticky-col second-col' : '' ">{{ list }}</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let emp of viewData | paginate: { itemsPerPage: 5, currentPage: currentPage }">
+                                    <td *ngFor="let empDet of emp, let  i = index; " class="text-center" [ngClass]="i === 0  ? 'sticky-col first-col': i === 1 ? 'sticky-col second-col' : '' ">{{ empDet }}</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="pagination-outer">
+                        <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel=""></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

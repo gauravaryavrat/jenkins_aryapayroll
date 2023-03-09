@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-header">
+        <h2 style="text-align: center">Payment Heads List</h2>
+
+        <button [disabled]="permissionInfo.search('Create PaymentHeads') === -1"
+        class="btn btn-primary" type="button" routerLink="/pages/graderule/add-managePaymentHeads/{{gradeRuleId}}"
+            style="float: right;"><i class="fa fa-plus-square"></i>&nbsp; Add Payment Heads</button>
+
+            <button class="btn btn-primary" type="button" routerLink="/pages/graderule/list-graderule"
+            style="float: right;"><i class="fa fa-arrow-left"></i></button>
+
+            <h4>{{ gradeRuleTitle }}</h4>
+    </div>
+
+    <table class="table" style="text-align: center;">
+      <thead class=" text-primary">
+          <tr>
+          <th>S.No</th>
+          <th>Title</th>
+          <th>Amount/Rate</th>
+          <th>Category</th>
+          <th>Action</th>
+          </tr>
+      </thead>
+      <tbody *ngFor="let list of dataValue; let i = index">
+          <tr >
+          <td><b>{{i+1}}.</b></td>
+          <td> {{list.paymentHeadName}} </td>
+          <td>{{list.value}}</td>
+          <td >{{list.type}}</td>
+          <td>
+              <a [class.disabled]="permissionInfo.search('Edit PaymentHeads') === -1"
+              routerLink="/pages/graderule/update-managePaymentHeads/{{list._id}}/{{gradeRuleId}}" class="btn btn-primary"><i class="fa fa-pencil-square-o"></i></a>&nbsp;
+
+              <button [disabled]="permissionInfo.search('Delete PaymentHeads') === -1"
+              class="btn btn-danger" type="button"(click)="showConfirmationMessage(list._id)"><i class="fa fa-trash"></i>
+              </button>&nbsp;
+          </td>
+          </tr>
+          </tbody>
+    </table>
+</div>

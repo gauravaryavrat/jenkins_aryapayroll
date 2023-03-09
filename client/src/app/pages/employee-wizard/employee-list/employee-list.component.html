@@ -1,0 +1,321 @@
+<div class="card">
+  <div class="card-header">
+    <h2 class="text-center">Employee List</h2>
+  </div>
+  <div class="card-body">
+    <div class="form-row">
+      <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>{{ employeeLabelName }}</b></label>
+          <select class="dropdown dropdown-toggle form-control" id="listEmployee" (change)="employeeFilter()">
+            <option class='dropdown-item' ng-selected="true" value="" disabled selected>Select Employee</option>
+            <option class="dropdown-item" *ngFor="let employee of filterEmployeeList" value="{{employee._id}}">
+              {{employee.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="form-group">
+          <label class="col-sm-6 control-label"><b>Status:</b></label>
+          <select class="dropdown dropdown-toggle form-control" id="employeeStatus" (change)="changeStatus()"
+            [disabled]="statusStatus">
+            <option class="dropdown-item" ng-selected="true" value="Active" selected>Active</option>
+            <option class="dropdown-item" ng-selected="true" value="Inactive">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-sm-4">
+        <div class="form-group right-buttongroup">
+        <button class="btn btn-primary" id="filterClick" (click)="filterFunctionality()"><i class="fa fa-filter"></i>&nbsp; Filter</button>
+        <button class="btn btn-danger"  (click)="resetFunctionality()"><i class="fas fa-trash-restore"></i>&nbsp; Reset</button>
+      </div>
+    </div>
+
+
+    <div class="col-lg-3 col-md-3 col-sm-3">
+      <div class="form-group right-buttongroup" >
+          <a [class.disabled]="permissionInfo.search('Create Employees') === -1" class="btn btn-primary" routerLink="../employee-profile" style="float: right;" ><i class="fa fa-plus-square"></i>&nbsp; Add Employee</a>
+      </div>
+    </div>
+    </div>
+
+
+  
+
+   
+
+  </div>
+
+  <div class="panel-body">
+    <ul class="list-group">
+        <table class="table" style="text-align: center;">
+          <thead class=" text-primary">
+            <tr>
+              <th> Profile </th>
+              <th>Employee Name</th>
+              <th>Department</th>
+              <th>Job Profile</th>
+              <th>Contact Info</th>
+              <th>Age</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let list of employeeList">
+            <tr>
+              <!-- <td><img style="height: 50px; width: 50px;"
+                  src="{{ list.avatar }}">
+
+              </td> -->
+              <td>
+                <div class="image-container">
+                  <img [src]='list.avatar' id="imgProfile" style="width: 60px; height: 50px" class="rounded-circle" />
+                  <div class="middle">
+                    <input type="file" style="display: none;" accept="image/*" id="profilePicture" #file
+                      (change)="onSelectFile($event,list._id)" />
+                    <input type="button" id="btnChangePicture" value="Change" (click)="file.click()" />
+                  </div>
+                </div>
+              </td>
+              <td> {{ list.name }} </td>
+              <td> {{list.departmentName}}</td>
+              <td> {{ list.jobProfile }}</td>
+              <td> {{ list.email}} </td>
+              <td> {{ list.age }}</td>
+              <td>
+                <div class="dropdown">
+                  <a class="text-secondary" href="javascript:void(0);" (click)="updateFunction() "
+                    id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i
+                      class="fa fa-ellipsis-h"></i> </a>
+                  <div class="dropdown-menu dropdown-menu-right" style="background-color: rgb(190, 230, 231)"
+                    aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" id="updateEmployeePermission"
+                      routerLink="../employee-profile/{{ list._id }}"><i
+                        class="fa fa-pencil-square-o"></i>&nbsp;Update</a>
+
+                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#myModal"
+                      data-backdrop="static" (click)="onSelect(list._id,'setPassword')"><i
+                        class="fa fa-key"></i>&nbsp;Set Password</a>
+
+                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#assignTL"
+                      data-backdrop="static" (click)="onSelect(list._id,'Assign')"><i
+                        class="fas fa-user-plus"></i>&nbsp;Assign TL/Manager</a>
+
+                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#unAssignTL"
+                      data-backdrop="static" (click)="onSelect(list._id,'UnAssign')"><i
+                        class="fas fa-user-slash"></i>&nbsp;UnAssign TL/Manager</a>
+
+                    <a *ngIf="activeStatus === 'Inactive' " href="javascript:void(0);" class="dropdown-item"
+                      (click)="statusConfirmationMessage(list._id)">
+                      <i class="fas fa-battery-half"></i>&nbsp;{{ activeStatus }}</a>
+                    <a *ngIf="activeStatus === 'Active' " href="javascript:void(0);" class="dropdown-item"
+                      (click)="statusConfirmationMessage(list._id)">
+                      <i class="fas fa-battery-full"></i>&nbsp;{{ activeStatus }}</a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+        </table>
+
+    </ul>
+  </div>
+  <div *ngIf="filterEmployeeDataMsg.length != 0">
+    <h3 style="text-align: center;">{{ filterEmployeeDataMsg }}</h3>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Set Password</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+      </div>
+      <div class="col-sm-offset-2">
+        <p class="alert alert-danger" *ngIf="passwordFlag">
+          <strong>{{ errMessage }}</strong>
+        </p>
+      </div>
+
+      <div class="col-sm-offset-2">
+        <p class="alert alert-success" *ngIf="successFlag">
+          <strong>{{ successMsg }}</strong>
+        </p>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form role="form" [formGroup]="setPasswordForm" (ngSubmit)="setPasswordFormData()">
+          <div class="form-group">
+            <label class="col-sm-6 control-label"><b>Password:&nbsp;<span style="color: darkred">*</span></b></label>
+
+            <input type="password" formControlName="password" placeholder="Enter Password" class="form-control" />
+            <div *ngFor="let validation of validationErrorMessage.password">
+              <div
+                *ngIf="setPasswordForm.get('password').hasError(validation.type) && (setPasswordForm.get('password').dirty || setPasswordForm.get('password').touched)"
+                style="color: red;margin-left: 14px;">
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-8 control-label"><b>Confirm Password:&nbsp;<span
+                  style="color: darkred">*</span></b></label>
+            <input type="password" formControlName="passwordConfirmation" placeholder="Confirm Password"
+              class="form-control" />
+            <div *ngFor="let validation of validationErrorMessage.passwordConfirmation">
+              <div
+                *ngIf="setPasswordForm.get('passwordConfirmation').hasError(validation.type) && (setPasswordForm.get('passwordConfirmation').dirty || setPasswordForm.get('passwordConfirmation').touched)"
+                style="color: red;margin-left: 14px;">
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- <div class="col-sm-10"> -->
+            <button type="submit" class="btn btn-success" style="float:right;"
+              [disabled]=!setPasswordForm.valid>Submit</button>
+            <button type="button" id="dismissSetPassword" class="btn btn-danger" style="float:right;"
+              data-dismiss="modal">Close</button>
+            <!-- </div> -->
+          </div>
+        </form>
+      </div>
+
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div> -->
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="assignTL">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Assign TL/Manager</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+      </div>
+      <div class="col-sm-offset-2">
+        <p class="alert alert-danger" *ngIf="passwordFlag">
+          <strong>{{ errMessage }}</strong>
+        </p>
+      </div>
+
+      <div class="col-sm-offset-2">
+        <p class="alert alert-success" *ngIf="successFlag">
+          <strong>{{ successMsg }}</strong>
+        </p>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form role="form" [formGroup]="assignTlForm.get('parentIdsData')" (ngSubmit)="assignTl()">
+          <div class="form-group">
+            <label class="col-sm-6 control-label"><b>TL/Manager Name:&nbsp;<span
+                  style="color: darkred">*</span></b></label>
+            <select class="dropdown dropdown-toggle form-control" Name="AssignTL" formControlName="parentUserId"
+              (change)="actionOnTl($event.target.value,'Assign')">
+              <option class="dropdown-item" value="null" selected disabled>-----Select TL/Manager-----</option>
+              <option class="dropdown-item" *ngFor="let companyTL of companyTlList" selected="{{ companyTL.name }}"
+                value="{{ companyTL._id }}">
+                {{ companyTL.name }}
+              </option>
+            </select>
+            <div *ngFor="let validation of assignTLValidation.parentUserId">
+              <div
+                *ngIf="assignTlForm.get('parentIdsData.parentUserId').hasError(validation.type) && (assignTlForm.get('parentIdsData.parentUserId').dirty || assignTlForm.get('parentIdsData.parentUserId').touched)"
+                style="color: red;margin-left: 14px;">
+                {{ validation.message }}
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <!-- <div class="col-sm-10"> -->
+            <button type="submit" class="btn btn-success" style="float:right;"
+              [disabled]=!assignTlForm.valid>Submit</button>
+            <button type="button" id="dismissTLModal" class="btn btn-danger" style="float:right;"
+              data-dismiss="modal">Close</button>
+            <!-- </div> -->
+          </div>
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div> -->
+
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="unAssignTL">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">UnAssign TL/Manager</h4>
+        <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+      </div>
+      <div class="col-sm-offset-2">
+        <p class="alert alert-danger" *ngIf="passwordFlag">
+          <strong>{{ errMessage }}</strong>
+        </p>
+      </div>
+
+      <div class="col-sm-offset-2">
+        <p class="alert alert-success" *ngIf="successFlag">
+          <strong>{{ successMsg }}</strong>
+        </p>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="card-body">
+          <!-- for show earned leave list  -->
+          <div class="card" style="background-color:whitesmoke;">
+            <div class="panel-body">
+              <ul class="list-group">
+                <div class="card-body">
+                  <table class="table" style="text-align: center;">
+                    <thead class=" text-primary">
+                      <tr>
+                        <th>Employee Name </th>
+                        <th> Action </th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let employeeTL of companyEmployeeTlList">
+                      <tr>
+                        <td> {{employeeTL.displayName}} </td>
+                        <td>
+                          <button title="UnAssign" class="btn btn-danger" (click)="unassignTL(employeeTL._id)"
+                            style="color: white;"><i class="fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </ul>
+            </div>
+          </div>
+          <!-- show earned leave list end -->
+        </div>
+        <button type="button" id="dismissUnAssignTLModal" class="btn btn-danger" style="float:right;"
+          data-dismiss="modal">Close</button>
+      </div>
+      <!-- Modal footer -->
+      <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div> -->
+
+    </div>
+  </div>
+</div>
