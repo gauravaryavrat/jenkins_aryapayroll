@@ -1,14 +1,14 @@
 version: '3'
 services:
  client:
-  image: aryapayroll-client:TAG
+  image:  gauravsingharya/aryapayroll-client:TAG
   ports:
     - 80:80
     - 443:443
   restart: always
 
  server:
-  image: aryapayroll-server:TAG
+  image:  gauravsingharya/aryapayroll-server:TAG
   ports:
     - 3002:3002
   restart: always
